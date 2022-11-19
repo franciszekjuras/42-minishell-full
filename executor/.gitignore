@@ -1,0 +1,7 @@
+libexecutor.a
+*.o
+*.gcov
+*.gcda
+*.gcno
+out/
+*.info
