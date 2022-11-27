@@ -3,18 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 15:41:19 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/27 17:41:50 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static char	*replace_while_dollar(char str, char *new, t_envv *head, int quotes)
+static char *get_env(t_env env, char *key)
 {
-	static char	*env = NULL;
+	char	**var;
+	
+	var = env.vars;
+	while(*var)
+	{
+		int pos = ft_strchr(*var, '=') - *var;
+		printf("%d %s %s\n", pos, *var, key);
+		if (ft_strncmp(key, *var, pos) == 0)
+    		return(*var + pos + 1);
+		var++;
+	}
+	
+	return ("");
+}
+
+static char	*replace_while_dollar(char str, char *new, t_env head, int quotes)
+{
+	char	*env = NULL;
 
 	if (ft_isalnum(str) || str == '_')
 		env = ft_strjoin_char(env, str);
@@ -31,7 +48,7 @@ static char	*replace_while_dollar(char str, char *new, t_envv *head, int quotes)
 			// TODO:
 			// t_envv should be replaced with t_env and ft_getenv should be
 			// modified to work with t_env
-			new = ft_strjoin_free(new, ft_getenv(head, env));
+			new = ft_strjoin_free(new, get_env(head, env));
 			if (!(str == '\"' && quotes != 1) && !(str == '\'' && quotes != 2))
 				new = ft_strjoin_char(new, str);
 			env = ft_free(env);
@@ -69,7 +86,7 @@ static int	dollar_check(char c)
 		return (0);
 }
 
-static char	*replace_while(t_cmd *cmd, t_envv *head, int i)
+static char	*replace_while(t_cmd *cmd, t_env head, int i)
 {
 	int		j;
 	char	*new;
@@ -97,7 +114,7 @@ static char	*replace_while(t_cmd *cmd, t_envv *head, int i)
 	return (new);
 }
 
-void	replace(t_cmd *cmd, t_envv *head)
+void	replace(t_cmd *cmd, t_env head)
 {
 	int		i;
 	char	*new;

@@ -6,7 +6,7 @@
 /*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 16:22:26 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/27 17:29:03 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	*parse_out_pipe(char *str, char *line, int quotes, int *pipe)
 	return (str);
 }
 
-t_line	parse(char *line, t_envv *head)
+t_line	parse(char *line, t_env head)
 {
 	t_cmd	*cmd;
 	t_cmd	*next;

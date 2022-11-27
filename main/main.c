@@ -6,7 +6,7 @@
 /*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/21 21:00:29 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/27 17:29:36 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	main(int argc, char *argv[], char *envp[])
 			add_history(line);
 		if (*line != '\0' && !is_whitespace(line))
 		{
-			parsed_line = parse(line, &env_head);
+			parsed_line = parse(line, env);
 			(void)parsed_line;
 			// your data structure must be translated
 			// to t_line struct to run executor

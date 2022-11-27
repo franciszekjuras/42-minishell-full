@@ -6,7 +6,7 @@
 /*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:38:47 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/23 12:20:49 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/27 16:58:21 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_ull			ft_strtoull_e(
 					const char *np, char **ep, int base, int *err);
 long long		ft_strtonum(
 					char **npp, long long min, long long max, int *err);
-char 			*ft_strcpy(char *dest, char *src);
 
 /**
  * @brief convert string to floating point number represented by integer
