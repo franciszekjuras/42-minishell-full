@@ -3,17 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   replace_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:11:34 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/19 11:54:31 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:04:00 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
+// TODO: This function name is misleading: which string is free'd?
+// Better name would be str_append - that way it's clear that first string is modified
 char	*ft_strjoin_free(char *s1, char *s2)
 {
+// TODO: Don't reimplement libft functions when customizing them
+// Using ft_strjoin you can implement it in 3 lines:
+// - call ft_strjoin
+// - free s1
+// - return joined string
 	char	*ret;
 	size_t	s1_len;
 	size_t	s2_len;

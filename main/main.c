@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 17:29:36 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/27 17:52:31 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,7 @@ int	main(int argc, char *argv[], char *envp[])
 	// minish_env_init will replace init_env_list
 	minish_env_init(&env, envp);
 	init_env_list(&env_head, envp);
-	display_env(env.vars);
-
+	// display_env(env.vars);
 	while (1)
 	{
 		line = readline("minishell $ ");

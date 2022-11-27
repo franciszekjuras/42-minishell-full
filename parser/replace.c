@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 17:41:50 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:05:19 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,43 +15,38 @@
 static char *get_env(t_env env, char *key)
 {
 	char	**var;
-	
+
 	var = env.vars;
 	while(*var)
 	{
 		int pos = ft_strchr(*var, '=') - *var;
-		printf("%d %s %s\n", pos, *var, key);
 		if (ft_strncmp(key, *var, pos) == 0)
     		return(*var + pos + 1);
 		var++;
 	}
-	
 	return ("");
 }
 
-static char	*replace_while_dollar(char str, char *new, t_env head, int quotes)
+static char	*replace_while_dollar(char str, char *new, t_env env, int quotes)
 {
-	char	*env = NULL;
+	static char	*env_var = NULL;
 
 	if (ft_isalnum(str) || str == '_')
-		env = ft_strjoin_char(env, str);
-	else if (str == '?' && env == NULL)
+		env_var = ft_strjoin_char(env_var, str);
+	else if (str == '?' && env_var == NULL)
 	{
-		env = ft_itoa(g_exit_code);
-		new = ft_strjoin_free(new, env);
-		env = ft_free(env);
+		env_var = ft_itoa(g_exit_code);
+		new = ft_strjoin_free(new, env_var);
+		env_var = ft_free(env_var);
 	}
 	else
 	{
-		if (env != NULL)
+		if (env_var != NULL)
 		{
-			// TODO:
-			// t_envv should be replaced with t_env and ft_getenv should be
-			// modified to work with t_env
-			new = ft_strjoin_free(new, get_env(head, env));
+			new = ft_strjoin_free(new, get_env(env, env_var));
 			if (!(str == '\"' && quotes != 1) && !(str == '\'' && quotes != 2))
 				new = ft_strjoin_char(new, str);
-			env = ft_free(env);
+			env_var = ft_free(env_var);
 			g_exit_code = 0;
 		}
 		else
@@ -86,7 +81,7 @@ static int	dollar_check(char c)
 		return (0);
 }
 
-static char	*replace_while(t_cmd *cmd, t_env head, int i)
+static char	*replace_while(t_cmd *cmd, t_env env, int i)
 {
 	int		j;
 	char	*new;
@@ -104,7 +99,7 @@ static char	*replace_while(t_cmd *cmd, t_env head, int i)
 			dollar = 1;
 		else if (dollar == 1)
 		{
-			new = replace_while_dollar(cmd->argv[i][j], new, head, quotes);
+			new = replace_while_dollar(cmd->argv[i][j], new, env, quotes);
 			dollar = dollar_check(cmd->argv[i][j]);
 		}
 		else
@@ -114,7 +109,7 @@ static char	*replace_while(t_cmd *cmd, t_env head, int i)
 	return (new);
 }
 
-void	replace(t_cmd *cmd, t_env head)
+void	replace(t_cmd *cmd, t_env env)
 {
 	int		i;
 	char	*new;
@@ -124,7 +119,7 @@ void	replace(t_cmd *cmd, t_env head)
 		i = 0;
 		while (i < cmd->argc)
 		{
-			new = replace_while(cmd, head, i);
+			new = replace_while(cmd, env, i);
 			if (new == NULL && cmd->is_dollar)
 				delete_argv(cmd, &i);
 			else if (new == NULL)
