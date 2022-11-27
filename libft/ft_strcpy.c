@@ -6,12 +6,27 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 14:21:13 by fjuras            #+#    #+#             */
-/*   Updated: 2022/02/28 14:59:49 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/27 15:12:35 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include "libft.h"
+
+// BUG: this function is unsafe: use ft_strlcpy only
+char *ft_strcpy(char *dest, char *src)
+{
+	int i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {

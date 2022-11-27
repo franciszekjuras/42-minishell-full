@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/19 17:11:28 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/27 15:41:19 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ static char	*replace_while_dollar(char str, char *new, t_envv *head, int quotes)
 	{
 		if (env != NULL)
 		{
+			// TODO:
+			// t_envv should be replaced with t_env and ft_getenv should be
+			// modified to work with t_env
 			new = ft_strjoin_free(new, ft_getenv(head, env));
 			if (!(str == '\"' && quotes != 1) && !(str == '\'' && quotes != 2))
 				new = ft_strjoin_char(new, str);
@@ -115,7 +118,7 @@ void	replace(t_cmd *cmd, t_envv *head)
 			else
 				argv_change(cmd, new, i);
 			i++;
-			printf("%s\n", new); // for testing
+			//printf("%s\n", new); // for testing
 		}
 		cmd = cmd->next;
 	}
