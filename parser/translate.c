@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 17:51:27 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 15:26:28 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/27 15:48:21 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_line translate(t_cmd *cmd)
 {
     int     idx;
     t_cmd	*ptr_cmd;
+    // INFO:
     // This style of naming variables (ptr_ prefix) is called 'Hungarian Notation'
     // and is generally considered bad practice nowadays, e.g. see this post
     // https://stackoverflow.com/questions/111933/why-shouldnt-i-use-hungarian-notation
