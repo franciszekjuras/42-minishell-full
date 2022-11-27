@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 17:52:31 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/27 18:10:35 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdio.h> //for testing
 #include <readline/history.h>
 #include <libft/libft.h>
-#include <env/env.h>
 #include <parser/parser.h>
 #include <interface/env.h>
 #include <interface/line.h>
@@ -107,16 +106,13 @@ void	display_env(char **env)
 int	main(int argc, char *argv[], char *envp[])
 {
 	char			*line;
-	t_envv			env_head;
 	t_env			env;
 	struct termios	term;
 	t_line			parsed_line;
 
 	tcgetattr(0, &term);
 	main_init(argc, argv);
-	// minish_env_init will replace init_env_list
 	minish_env_init(&env, envp);
-	init_env_list(&env_head, envp);
 	// display_env(env.vars);
 	while (1)
 	{

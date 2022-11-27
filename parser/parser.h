@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:46:48 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 17:56:24 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/27 18:09:46 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdio.h> //for debugging
 # include "struct.h"
 # include <libft/libft.h>
-# include <env/env.h>
 # include <interface/line.h>
 # include <interface/env.h>
 

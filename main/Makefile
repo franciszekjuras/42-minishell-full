@@ -1,8 +1,7 @@
 NAME = minishell
 
 FILES = \
-	main env_utils ft_env ft_export_no_arg_utils \
-	ft_getenv utils
+	main utils
 
 HEADERS = \
 	../interface/line ../interface/env
