@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 17:51:27 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 16:54:28 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/27 19:58:40 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ t_line translate(t_cmd *cmd)
         for (int i = 0; i < cur_cmd->argc; i++)
         {
             line.progs[idx].args[i] = ft_strdup(cur_cmd->argv[i]);
-            printf("%s\n", line.progs[idx].args[i]);
         }
         idx++;
         cur_cmd = cur_cmd->next;

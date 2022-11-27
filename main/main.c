@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 18:10:35 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/27 20:06:15 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
 #define SHE 0
 #define DFL 1
 #define IGN 2
-
-int	g_exit_code;
 
 void	signal_handler(int signo)
 {
@@ -83,15 +81,13 @@ void	main_init(int argc, char *argv[])
 {
 	struct termios	term;
 
+	(void) argv;
 	if (argc != 1)
 		exit_with_err("argument input error", NULL, 126);
 	tcgetattr(0, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(0, TCSANOW, &term);
 	set_signal(SHE, SHE);
-	g_exit_code = 0;
-	(void)argc;
-	(void)argv;
 }
 
 void	display_env(char **env)
@@ -124,12 +120,10 @@ int	main(int argc, char *argv[], char *envp[])
 		if (*line != '\0' && !is_whitespace(line))
 		{
 			parsed_line = parse(line, env);
-			(void)parsed_line;
-			// your data structure must be translated
-			// to t_line struct to run executor
-			// minish_execute(&env, parsed_line);
+			minish_execute(&env, parsed_line);
 		}
 		free(line);
 	}
-	tcsetattr(0, TCSANOW, &term);
+	minish_env_free(env);
+	tcsetattr(0, TCSANOW, &term); // INFO: Is this call necessary?
 }

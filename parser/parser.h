@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:46:48 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 18:09:46 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/27 19:36:24 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <libft/libft.h>
 # include <interface/line.h>
 # include <interface/env.h>
-
-extern int g_exit_code;
 
 char	**ft_split_argc(char const *s, char c, int *argc);
 char	*ft_strjoin_char(char *s1, char s2);

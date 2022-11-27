@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 18:05:19 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/27 19:38:55 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*replace_while_dollar(char str, char *new, t_env env, int quotes)
 		env_var = ft_strjoin_char(env_var, str);
 	else if (str == '?' && env_var == NULL)
 	{
-		env_var = ft_itoa(g_exit_code);
+		env_var = ft_itoa(env.last_exit_status);
 		new = ft_strjoin_free(new, env_var);
 		env_var = ft_free(env_var);
 	}
@@ -47,7 +47,6 @@ static char	*replace_while_dollar(char str, char *new, t_env env, int quotes)
 			if (!(str == '\"' && quotes != 1) && !(str == '\'' && quotes != 2))
 				new = ft_strjoin_char(new, str);
 			env_var = ft_free(env_var);
-			g_exit_code = 0;
 		}
 		else
 			new = ft_strjoin_char(new, '$');
