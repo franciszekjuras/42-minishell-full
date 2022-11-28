@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 20:12:03 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/28 17:46:39 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/28 17:50:28 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,22 @@ int	test_sq_env(const char *filter)
 	return (TEST_END(r));
 }
 
+int	test_many_quotes(const char *filter)
+{
+	t_line	exp;
+	int		i, r;
+
+	TEST_START(filter);
+	i = 0;
+	test_line_init(&exp, 1);
+	test_prog_args(&exp.progs[i], "ab\'c\"d", NULL);
+	test_prog_redirs(&exp.progs[i++], NULL, NULL);
+	test_line_end(&exp, i);
+	r = check_variant(g_env, exp, "\"a\"\'b\'\"\'\"c\'\"\'\"\"\'\'d");
+	test_line_free(exp);
+	return (TEST_END(r));
+}
+
 const t_test_function g_test_functions[] =
 {
 	test_framework_leak,
@@ -242,6 +258,7 @@ const t_test_function g_test_functions[] =
 	test_env_w_space,
 	test_dq_env_w_space,
 	test_sq_env,
+	test_many_quotes,
     NULL
 };
 
