@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 20:06:15 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/29 11:59:22 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ void	main_init(int argc, char *argv[])
 	struct termios	term;
 
 	(void) argv;
+	// TODO: exiting inside functions can be confusing. It would be much
+	// better just to print the error here and propagate it with function return value
+	// That way the caller can decide what to do with the error, e.g. in the main function
+	// we might want to continue anyway, as extra arguments do no harm
+
 	if (argc != 1)
 		exit_with_err("argument input error", NULL, 126);
 	tcgetattr(0, &term);

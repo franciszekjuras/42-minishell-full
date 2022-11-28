@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 19:47:54 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/29 12:01:33 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static char	*parse_in_pipe(char *str, int *pipe, t_cmd **cmd, t_cmd *next)
 {
+	// BUG: we cannot exit in case of parsing error, instead, error message
+	// should be printed and new prompt shown
+
 	if (*pipe == 1)
 		exit_with_err("argv error", "||", 1);
 	(*cmd)->is_pipe = true;
@@ -56,6 +59,7 @@ static char	*add_redirect_space(char *str, char *line, char c)
 
 static char	*parse_out_pipe(char *str, char *line, int quotes, int *pipe)
 {
+	// BUG: we cannot exit in case of parsing error
 	if ((*line == ';' || *line == '\\') && quotes == 0)
 		exit_with_err("symbol error", line, 1);
 	else if (quotes != 0 && *line == ' ')
@@ -95,6 +99,7 @@ t_line	parse(char *line, t_env head)
 			str = parse_out_pipe(str, line, quotes, &pipe);
 		line++;
 	}
+	// BUG: we cannot exit in case of parsing error
 	if (quotes != 0)
 		exit_with_err("quotes error", NULL, 1);
 	if (str != NULL)

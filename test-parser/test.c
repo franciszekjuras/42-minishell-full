@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 20:12:03 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/28 17:50:28 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/29 11:31:54 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,12 @@ int	test_redir(const char *filter)
 	test_prog_args(&exp.progs[i], "ls", NULL);
 	test_prog_redirs(&exp.progs[i++], "in.txt", "out.txt");
 	test_line_end(&exp, i);
-	r = check_variant(g_env, exp, "<in.txt ls >out.txt");
+	r = check_variant(g_env, exp, "<in.txt ls >out.txt") &&
+		check_variant(g_env, exp, "ls <in.txt >out.txt") &&
+		check_variant(g_env, exp, "<in.txt >out.txt ls") &&
+		check_variant(g_env, exp, ">out.txt ls <in.txt") &&
+		check_variant(g_env, exp, ">out.txt <in.txt ls") &&
+		check_variant(g_env, exp, "ls >out.txt <in.txt");
 	test_line_free(exp);
 	return (TEST_END(r));
 }

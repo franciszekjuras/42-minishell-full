@@ -120,10 +120,10 @@ void	test_line_print(const t_line *line)
 	{
 		prog = &line->progs[i];
 		if (prog->in_redir.path != NULL)
-			fprintf(stderr, "<%s ", prog->in_redir.path);
-		test_printarr(prog->args, "\033[1;30m·\033[0;m");
+			fprintf(stderr, "\e[1;33m<\e[m%s ", prog->in_redir.path);
+		test_printarr(prog->args, "\e[1;30m·\e[m");
 		if (prog->out_redir.path != NULL)
-			fprintf(stderr, " >%s", prog->out_redir.path);
+			fprintf(stderr, " \e[1;36m>\e[m%s", prog->out_redir.path);
 		if (i + 1 < line->size)
 			fprintf(stderr, " | ");
 		++i;

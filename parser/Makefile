@@ -36,6 +36,6 @@ re: fclean all
 
 report:
 	lcov -c --directory . --output-file cov.info
-	genhtml cov.info --output-directory ../executor-cov
+	genhtml cov.info --output-directory ../parser-cov
 
 .PHONY: all clean fclean re
