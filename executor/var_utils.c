@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:50:14 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/19 17:44:57 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/29 18:22:32 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*var_find_name_end(char *var)
 }
 
 /*
-https://stackoverflow.com/questions/2821043/allowed-characters-in-linux-environment-variable-names
+https://stackoverflow.com/questions/2821043/
+allowed-characters-in-linux-environment-variable-names
 Environment variable names used by the utilities in the Shell 
 and Utilities volume of IEEE Std 1003.1-2001 consist solely 
 of uppercase letters, digits, and the '_' (underscore) from

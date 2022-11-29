@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/19 17:31:33 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/29 18:22:47 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,6 @@ void	app_exec_child_side(t_app *app, t_exec_data *exec_data)
 	exit(errno);
 }
 
-void	app_exec_builtin(t_app *app, t_exec_data *exec_data)
-{
-	app->builtin_last_retval = exec_data->builtin_fun(app, exec_data);
-}
-
 int	app_pipe(t_app *app,
 	t_exec_data *exec_data_in, t_exec_data *exec_data_out)
 {
@@ -82,18 +77,50 @@ int	app_pipe(t_app *app,
 	}
 }
 
-int	app_open(t_app *app, t_exec_data *exec_data, char *file, int mode)
+static int	app_open_heredoc(char *delim)
+{
+	int		doc_pipe[2];
+	char	*line;
+	char	*delim_nl;
+
+	if (pipe(doc_pipe) != 0)
+		return (-1);
+	delim_nl = ft_strjoin(delim, "\n");
+	line = ft_get_next_line(0);
+	while (line != NULL && ft_strcmp(line, delim_nl) != 0)
+	{
+		ft_putstr_fd(line, doc_pipe[1]);
+		free(line);
+		line = ft_get_next_line(0);
+	}
+	free(line);
+	free(delim_nl);
+	close(doc_pipe[1]);
+	return (doc_pipe[0]);
+}
+
+int	app_open(t_app *app, t_exec_data *exec_data, t_redir redir, int mode)
 {
 	int	fd;
 
 	fd = -1;
 	if (mode == APP_OPEN_OUT)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	{
+		if (!redir.is_alt)
+			fd = open(redir.path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else
+			fd = open(redir.path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	}
 	else if (mode == APP_OPEN_IN || 1)
-		fd = open(file, O_RDONLY);
+	{
+		if (!redir.is_alt)
+			fd = open(redir.path, O_RDONLY);
+		else
+			fd = app_open_heredoc(redir.path);
+	}
 	if (fd < 0)
 	{
-		ft_dprintf(2, "%s: %s: %s\n", app->name, file, strerror(errno));
+		ft_dprintf(2, "%s: %s: %s\n", app->name, redir.path, strerror(errno));
 		return (-1);
 	}
 	exec_data_track_fd(exec_data, fd);

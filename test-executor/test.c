@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 18:28:02 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/08 19:09:21 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/29 17:23:02 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -801,7 +801,7 @@ int	test_builtin_cd_invalid_path(const char *filter)
 	TEST_START_CLEAN(filter);
 	d.i = 0;
 	test_line_init(&line, 1);
-	test_prog_args(&line.progs[d.i], "cd", "/usr/bin/no/such/path/", NULL);
+	test_prog_args(&line.progs[d.i], "cd", "/no/such/path/", NULL);
 	test_prog_redirs(&line.progs[d.i++], NULL, NULL);
 	test_line_end(&line, d.i);
 	test_redirect_stdout("out/stdout.txt");
@@ -811,6 +811,28 @@ int	test_builtin_cd_invalid_path(const char *filter)
 	test_close_stdout();
 	d.retval_match = test_expect_retval(d.retval, ENOENT);
 	return (TEST_END(d.retval_match));
+}
+
+int test_in_alt_redir(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+
+	TEST_START_CLEAN(filter);
+	d.i = 0;
+	test_line_init(&line, 1);
+	test_prog_args(&line.progs[d.i], CAT, NULL);
+	test_prog_redirs(&line.progs[d.i], "mouse", NULL);
+	line.progs[d.i++].in_redir.is_alt = 1;
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	test_redirect_stdin("in/animals.txt");
+	d.retval = minish_execute(&g_env, line);
+	test_restore_stdin();
+	test_close_stdout();
+	d.file_match = test_expect_file_content("out/stdout.txt", "snake", "horse", NULL);
+	d.retval_match = test_expect_retval(d.retval, 0);
+	return (TEST_END(d.retval_match && d.file_match));
 }
 
 const t_test_function g_test_functions[] =
@@ -846,6 +868,7 @@ const t_test_function g_test_functions[] =
 	test_builtin_cd_pwd,
 	test_builtin_cd_invalid_arg_number,
 	test_builtin_cd_invalid_path,
+	test_in_alt_redir,
 	NULL
 };
 

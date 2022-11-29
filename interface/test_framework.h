@@ -120,10 +120,12 @@ void	test_line_print(const t_line *line)
 	{
 		prog = &line->progs[i];
 		if (prog->in_redir.path != NULL)
-			fprintf(stderr, "\e[1;33m<\e[m%s ", prog->in_redir.path);
+			fprintf(stderr, "\e[1;33m%s\e[m%s ",
+				prog->in_redir.is_alt ? "<" : "<<", prog->in_redir.path);
 		test_printarr(prog->args, "\e[1;30m·\e[m");
 		if (prog->out_redir.path != NULL)
-			fprintf(stderr, " \e[1;36m>\e[m%s", prog->out_redir.path);
+			fprintf(stderr, " \e[1;36m%s\e[m%s",
+				prog->out_redir.is_alt ? ">" : ">>", prog->out_redir.path);
 		if (i + 1 < line->size)
 			fprintf(stderr, " | ");
 		++i;
@@ -151,7 +153,8 @@ int	test_redir_eq(t_redir *actual, t_redir *expected)
 	if (actual->path == NULL || expected->path == NULL)
 		return (actual->path == expected->path);
 	else
-		return (strcmp(actual->path, expected->path) == 0);
+		return (strcmp(actual->path, expected->path) == 0 &&
+			actual->is_alt == expected->is_alt);
 }
 
 int	test_prog_eq(t_prog *actual, t_prog *expected)
@@ -377,6 +380,8 @@ void	test_prog_redirs(t_prog *prog, const char *in, const char *out)
 		prog->out_redir.path = strdup(out);
 	else
 		prog->out_redir.path = NULL;
+	prog->in_redir.is_alt = 0;
+	prog->out_redir.is_alt = 0;
 }
 
 void	test_line_init(t_line *line, int size)
@@ -432,6 +437,38 @@ void	test_redirect_stdout(const char *filename)
 void	test_close_stdout()
 {
 	close(1);
+}
+
+
+int	*test_get_stdin_fd(void)
+{
+	static int	stdin_fd;
+
+	return (&stdin_fd);
+}
+
+void	test_redirect_stdin(const char *filename)
+{
+	int	redir_fd;
+
+	redir_fd = open(filename, O_RDONLY);
+	if (redir_fd < 0)
+	{
+		fprintf(stderr, "%s: %s\n", filename, strerror(errno));
+		exit(1);
+	}
+	*test_get_stdin_fd() = dup(0);
+	dup2(redir_fd, 0);
+	if (redir_fd != 0)
+		close(redir_fd);
+}
+
+void	test_restore_stdin()
+{
+	dup2(*test_get_stdin_fd(), 0);
+	if (*test_get_stdin_fd() != 0)
+		close(*test_get_stdin_fd());
+	*test_get_stdin_fd() = 0;
 }
 
 void	test_start(const char *test_name)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:50:14 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/20 17:50:54 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:19:52 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 typedef struct s_redir
 {
 	char	*path;
+	int		is_alt;
 }	t_redir;
 
 typedef struct s_prog

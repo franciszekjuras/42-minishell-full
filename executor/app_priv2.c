@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/07 14:42:41 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/29 17:50:54 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 static int	fill_redirs(t_app *app, t_exec_data *exec_data, t_prog prog)
 {
 	if (prog.in_redir.path != NULL)
-		exec_data->fd_in = app_open(app, exec_data, prog.in_redir.path,
+		exec_data->fd_in = app_open(app, exec_data, prog.in_redir,
 				APP_OPEN_IN);
 	if (exec_data->fd_in < 0)
 		return (-1);
 	if (prog.out_redir.path != NULL)
-		exec_data->fd_out = app_open(app, exec_data, prog.out_redir.path,
+		exec_data->fd_out = app_open(app, exec_data, prog.out_redir,
 				APP_OPEN_OUT);
 	if (exec_data->fd_out < 0)
 		return (-1);
@@ -66,6 +66,11 @@ int	app_pipe_exec_data_arr(t_app *app,
 	}
 	else
 		return (app_pipe(app, &exec_data_arr[i], &exec_data_arr[i + 1]));
+}
+
+static void	app_exec_builtin(t_app *app, t_exec_data *exec_data)
+{
+	app->builtin_last_retval = exec_data->builtin_fun(app, exec_data);
 }
 
 void	app_exec(t_app *app, t_exec_data *exec_data)
