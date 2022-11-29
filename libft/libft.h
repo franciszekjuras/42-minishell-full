@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:38:47 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/27 16:58:21 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/30 11:17:13 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,6 +303,17 @@ char			*ft_strndup(const char *str, size_t len);
  * @return char* pointer to empty string
  */
 char			*ft_stralloc(size_t len);
+
+/**
+ * @brief 
+ * Advance `longstr` by `shortstr`, under condition
+ * that `longstr` starts with `shortstr`
+ * @param longstr advanced string
+ * @param shortstr advanced by string
+ * @return char* pointer to part of `longstr` after successful advance
+ * or NULL if `longstr` doesn't start with `shortstr`
+ */
+char			*ft_str_advance_str(char *longstr, const char *shortstr);
 
 /**
  * @brief 

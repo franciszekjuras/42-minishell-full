@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 19:38:55 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/30 11:20:19 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 static char *get_env(t_env env, char *key)
 {
 	char	**var;
+	char	*key_end;
 
 	var = env.vars;
 	while(*var)
 	{
-		int pos = ft_strchr(*var, '=') - *var;
-		if (ft_strncmp(key, *var, pos) == 0)
-    		return(*var + pos + 1);
+		key_end = ft_str_advance_str(*var, key);
+		if (key_end != NULL && *key_end == '=')
+    		return(key_end + 1);
 		var++;
 	}
 	return ("");

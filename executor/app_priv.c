@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/29 18:22:47 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/30 12:59:00 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,23 +104,21 @@ int	app_open(t_app *app, t_exec_data *exec_data, t_redir redir, int mode)
 	int	fd;
 
 	fd = -1;
-	if (mode == APP_OPEN_OUT)
-	{
-		if (!redir.is_alt)
-			fd = open(redir.path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else
-			fd = open(redir.path, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	}
-	else if (mode == APP_OPEN_IN || 1)
-	{
-		if (!redir.is_alt)
-			fd = open(redir.path, O_RDONLY);
-		else
-			fd = app_open_heredoc(redir.path);
-	}
+	if (mode == APP_OPEN_OUT && !redir.is_alt)
+		fd = open(redir.path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (mode == APP_OPEN_OUT && redir.is_alt)
+		fd = open(redir.path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (mode == APP_OPEN_IN && !redir.is_alt)
+		fd = open(redir.path, O_RDONLY);
+	else if (mode == APP_OPEN_IN && redir.is_alt)
+		fd = app_open_heredoc(redir.path);
 	if (fd < 0)
 	{
-		ft_dprintf(2, "%s: %s: %s\n", app->name, redir.path, strerror(errno));
+		if (mode == APP_OPEN_IN && redir.is_alt)
+			ft_dprintf(2, "%s: heredoc: %s\n", app->name, strerror(errno));
+		else
+			ft_dprintf(2, "%s: %s: %s\n",
+				app->name, redir.path, strerror(errno));
 		return (-1);
 	}
 	exec_data_track_fd(exec_data, fd);

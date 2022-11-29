@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 18:15:40 by fjuras            #+#    #+#             */
-/*   Updated: 2022/03/01 13:03:09 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/30 11:23:02 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,18 @@ char	**ft_split(char const *str, char delim)
 	}
 	words[count] = 0;
 	return (words);
+}
+
+char	*ft_str_advance_str(char *longstr, const char *shortstr)
+{
+	int	i;
+
+	i = 0;
+	while (shortstr[i] != '\0')
+	{
+		if (shortstr[i] != longstr[i])
+			return (NULL);
+		++i;
+	}
+	return (&longstr[i]);
 }
