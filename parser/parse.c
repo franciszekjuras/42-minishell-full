@@ -6,7 +6,7 @@
 /*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/30 22:33:28 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/11/30 22:58:50 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*add_redirect_space(char *str, char *line, char c)
 		if (!(*line == '>' || *line == ' '))
 			str = ft_strjoin_char(str, ' ');
 		line++;
-		str = ft_strjoin_char(str, '>');
+		str = ft_strjoin_char(str, -62);
 		line++;
 		if (!(*line == '>' || *line == ' '))
 			str = ft_strjoin_char(str, ' ');
@@ -49,7 +49,7 @@ static char	*add_redirect_space(char *str, char *line, char c)
 		if (!(*line == '<' || *line == ' '))
 			str = ft_strjoin_char(str, ' ');
 		line++;
-		str = ft_strjoin_char(str, '<');
+		str = ft_strjoin_char(str, -60);
 		line++;
 		if (!(*line == '<' || *line == ' '))
 			str = ft_strjoin_char(str, ' ');

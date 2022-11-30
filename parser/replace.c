@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/30 11:20:19 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/30 22:58:27 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ static char	*replace_while_else(char c, char *new, int quotes)
 	result = NULL;
 	if (c == -32)
 		result = ft_strjoin_char(new, ' ');
+	else if (c == -60)
+		result = ft_strjoin_char(new, '<');
+	else if (c == -62)
+		result = ft_strjoin_char(new, '>');
 	else if (!(c == '\"' && quotes != 1) && !(c == '\'' && quotes != 2))
 	{
 		result = ft_strjoin_char(new, c);
