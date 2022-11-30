@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/29 11:59:22 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/30 21:46:15 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,5 @@ int	main(int argc, char *argv[], char *envp[])
 		free(line);
 	}
 	minish_env_free(env);
-	tcsetattr(0, TCSANOW, &term); // INFO: Is this call necessary?
+	tcsetattr(0, TCSANOW, &term); // INFO: Is this call necessary? -> to set back the terminal setting
 }
