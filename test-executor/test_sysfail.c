@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 18:28:02 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/30 12:05:37 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 13:06:57 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ oR -- output redirection
 #define SEGF "./segfaulter.sh"
 
 #define SIGCODE(x) (128 + (x))
+
+volatile sig_atomic_t g_sigint_received = 0;
 
 typedef struct s_test_data
 {

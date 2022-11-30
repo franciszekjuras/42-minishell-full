@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 14:13:59 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/19 22:04:08 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:07:26 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <interface/env.h>
 #include <interface/line.h>
+#include <interface/global.h>
 #include "app.h"
 #include "childs.h"
 #include "envops.h"
@@ -35,6 +36,11 @@ int	minish_execute(t_env *env, t_line line)
 	t_app		app;
 	int			retval;
 
+	if (g_sigint_received)
+	{
+		line_free(line);
+		return (0);
+	}
 	app_init(&app, env, "minish");
 	exec_data_arr = exec_data_arr_init(line.size);
 	app_exec_arr(&app, exec_data_arr, line);
