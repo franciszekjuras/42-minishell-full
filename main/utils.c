@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:46:21 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/01 23:56:43 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 12:52:56 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include <string.h>
 #include <errno.h>
 #include <libft/libft.h>
+#include <interface/env.h>
+
+#define MINISH_COLOR_NAME "\e[42m mi\e[43mni\e[45msh\e[44mell \e[47m\e[m"
 
 void	exit_with_err(char *str1, char *str2, int exit_code)
 {
@@ -51,7 +54,10 @@ int	is_whitespace(char *line)
 	return (1);
 }
 
-const char	*get_prompt(void)
+const char	*get_prompt(t_env env)
 {
-	return ("minishell $ ");
+	if (env.last_exit_status == 0)
+		return ("\e[32m^\e[m " MINISH_COLOR_NAME " ");
+	else
+		return ("\e[31m^\e[m " MINISH_COLOR_NAME " ");
 }
