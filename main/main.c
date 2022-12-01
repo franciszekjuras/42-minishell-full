@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/01 13:18:27 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 18:17:05 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <parser/parser.h>
 #include <interface/env.h>
 #include <interface/line.h>
+#include <interface/global.h>
 #include <executor/executor.h>
 
 #include <unistd.h>
@@ -32,21 +33,26 @@
 #define DFL 1
 #define IGN 2
 
-volatile sig_atomic_t	g_sigint_received = 0;
+volatile sig_atomic_t	g_shell_state = 0;
 
 void	signal_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (g_shell_state == SHELL_STATE_PARSE)
+		{
+			write(1, "\n", 1);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
+		else if (g_shell_state == SHELL_STATE_EXEC)
+			g_shell_state = SHELL_STATE_INTPT;
 	}
 	if (signo == SIGQUIT)
 	{
-		rl_on_new_line();
-		rl_redisplay();
+		// rl_on_new_line();
+		// rl_redisplay();
 	}
 }
 
@@ -94,7 +100,7 @@ void	main_init(int argc, char *argv[])
 	tcgetattr(0, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(0, TCSANOW, &term);
-	set_signal(SHE, SHE);
+	set_signal(SHE, IGN);
 }
 
 void	display_env(char **env)
@@ -117,11 +123,16 @@ int	main(int argc, char *argv[], char *envp[])
 	main_init(argc, argv);
 	minish_env_init(&env, envp);
 	// display_env(env.vars);
-	while (1)
+	while (!env.should_exit)
 	{
+		g_shell_state = SHELL_STATE_PARSE;
 		line = readline("minishell $ ");
+		g_shell_state = SHELL_STATE_EXEC;
 		if (!line)
+		{
+			write(1, "\n", 1);
 			break ;
+		}
 		if (*line != '\0')
 			add_history(line);
 		if (*line != '\0' && !is_whitespace(line))

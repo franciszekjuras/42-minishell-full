@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 18:28:02 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/01 13:06:53 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 19:09:30 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ oR -- output redirection
 
 #define SIGCODE(x) (128 + (x))
 
-volatile sig_atomic_t g_sigint_received = 0;
+volatile sig_atomic_t g_shell_state = 0;
 
 typedef struct s_test_data
 {
@@ -746,6 +746,32 @@ int	test_builtin_unset_invalid(const char *filter)
 	return (TEST_END(d.retval_match && d.file_match));
 }
 
+int	test_builtin_exit(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+	t_env		env;
+	char		**environ;
+
+	TEST_START_CLEAN(filter);
+	environ = test_make_environ(NULL);
+	minish_env_init(&env, environ);
+	test_free_environ(environ);
+	d.i = 0;
+	test_line_init(&line, 1);
+	test_prog_args(&line.progs[d.i], "exit", NULL);
+	test_prog_redirs(&line.progs[d.i++], NULL, NULL);
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	d.retval = minish_execute(&env, line);
+	test_close_stdout();
+	minish_env_free(env);
+	d.file_match = test_expect_file_content("out/stdout.txt", NULL);
+	d.retval_match = test_expect_retval(d.retval, 0);
+	int should_exit_match = test_expect_val("Exit flag value", env.should_exit, 1);
+	return (TEST_END(d.retval_match && d.file_match && should_exit_match));
+}
+
 int	test_3C_segfault_first_and_last(const char *filter)
 {
 	t_line		line;
@@ -929,6 +955,7 @@ const t_test_function g_test_functions[] =
 	test_builtin_unset,
 	test_builtin_unset_path,
 	test_builtin_unset_invalid,
+	test_builtin_exit,
 	test_3C_segfault_first_and_last,
 	test_builtin_cd_pwd,
 	test_builtin_cd_invalid_arg_number,

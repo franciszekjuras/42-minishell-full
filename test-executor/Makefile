@@ -75,7 +75,8 @@ libs_cov_:
 	make re -C ../executor COV_FLAGS="-fprofile-arcs -ftest-coverage"
 
 cov: libs_cov_ all
-	./run.sh
+
+report:
 	make -C ../executor report
 	make -C ../executor fclean
 

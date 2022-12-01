@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:50:14 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/19 17:47:01 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 13:51:28 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ void	env_init(t_env *env, char **parent_environ)
 	env_init_vars(env, parent_environ);
 	env->path = NULL;
 	env->last_exit_status = 0;
+	env->should_exit = 0;
 	env_update_path(env);
 }

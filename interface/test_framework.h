@@ -202,7 +202,6 @@ int	test_expect_line_eq_x(const char *from, int line, t_line *actual, t_line *ex
 	return (eq);
 }
 
-
 #define test_expect_retval(...) test_expect_retval_x(__FILE__, __LINE__, __VA_ARGS__)
 int	test_expect_retval_x(const char *from, int line, int actual, int expected)
 {
@@ -210,6 +209,19 @@ int	test_expect_retval_x(const char *from, int line, int actual, int expected)
 	{
 		fprintf(stderr, TEST_FROM, from, line);
 		fprintf(stderr, "Return value does not match:\n");
+		fprintf(stderr, "Actual  : %d\n", actual);
+		fprintf(stderr, "Expected: %d\n", expected);
+	}
+	return (actual == expected);
+}
+
+#define test_expect_val(...) test_expect_val_x(__FILE__, __LINE__, __VA_ARGS__)
+int	test_expect_val_x(const char *from, int line, char *desc, int actual, int expected)
+{
+	if (actual != expected)
+	{
+		fprintf(stderr, TEST_FROM, from, line);
+		fprintf(stderr, "%s does not match:\n", desc);
 		fprintf(stderr, "Actual  : %d\n", actual);
 		fprintf(stderr, "Expected: %d\n", expected);
 	}

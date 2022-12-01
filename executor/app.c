@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 17:48:22 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 18:52:22 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,26 @@
 #include "exec_data.h"
 #include "utils.h"
 
-void	app_init(t_app *app, t_env *env, const char *name)
+void	app_init(t_app *app, t_env *env, int line_size, const char *name)
 {
 	app->env = env;
 	app->name = ft_strdup(name);
 	app->builtin_last_retval = 0;
-	childs_init(&app->childs);
+	childs_init(&app->childs, line_size);
 }
 
 void	app_free(t_app *app)
 {
 	free(app->name);
+	childs_free(&app->childs);
 }
 
-void	app_exec_arr(t_app *app, t_exec_data *exec_data_arr, t_line line)
+void	app_exec_line(t_app *app, t_line line)
 {
 	int	i;
+	t_exec_data *exec_data_arr;
 
+	exec_data_arr = exec_data_arr_init(line.size);
 	i = 0;
 	while (i < line.size)
 	{
@@ -45,4 +48,5 @@ void	app_exec_arr(t_app *app, t_exec_data *exec_data_arr, t_line line)
 		exec_data_free(&exec_data_arr[i]);
 		++i;
 	}
+	free(exec_data_arr);
 }

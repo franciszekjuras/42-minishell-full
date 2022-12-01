@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 14:13:59 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/01 13:07:26 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 14:43:34 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,11 @@ void	minish_env_free(t_env env)
 
 int	minish_execute(t_env *env, t_line line)
 {
-	t_exec_data	*exec_data_arr;
 	t_app		app;
 	int			retval;
 
-	if (g_sigint_received)
-	{
-		line_free(line);
-		return (0);
-	}
-	app_init(&app, env, "minish");
-	exec_data_arr = exec_data_arr_init(line.size);
-	app_exec_arr(&app, exec_data_arr, line);
-	free(exec_data_arr);
+	app_init(&app, env, line.size, "minish");
+	app_exec_line(&app, line);
 	retval = childs_wait_until_all_exit(&app.childs);
 	if (app.childs.last < 0)
 		retval = app.builtin_last_retval;

@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:47:42 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/04 14:42:04 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 14:42:13 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ typedef struct s_app
 	int			builtin_last_retval;
 }	t_app;
 
-void	app_init(t_app *app, t_env *env, const char *name);
+void	app_init(t_app *app, t_env *env, int line_size, const char *name);
 void	app_free(t_app *app);
-void	app_exec_arr(t_app *app, t_exec_data *exec_data_arr, t_line line);
+void	app_exec_line(t_app *app, t_line line);
 
 #endif

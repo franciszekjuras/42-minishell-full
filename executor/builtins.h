@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:23:35 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/30 12:40:03 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 13:50:24 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 typedef int	(*t_bltin_fun)(t_app *, t_exec_data *);
 
 t_bltin_fun	builtin_resolve(const char *progname);
+int			builtin_exit(t_app *app, t_exec_data *ed);
 int			builtin_echo(t_app *app, t_exec_data *ed);
 int			builtin_cd(t_app *app, t_exec_data *ed);
 int			builtin_pwd(t_app *app, t_exec_data *ed);
