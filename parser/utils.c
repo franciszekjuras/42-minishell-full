@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:46:21 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/19 15:49:05 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 20:31:22 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	exit_with_err(char *str1, char *str2, int exit_code)
 	exit(exit_code);
 }
 
+// TODO: delete after fixing ft_strjoin_free
 void	*ft_malloc(size_t size, size_t n)
 {
 	void	*ret;
