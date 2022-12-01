@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/01 22:15:42 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/01 23:56:14 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 #include <signal.h>
 #include <stdio.h>
 #include <readline/readline.h>
+
+#include "utils.h"
 
 #define SHE 0
 #define DFL 1
@@ -54,19 +56,6 @@ static void sigquit_handler(int signo)
 	(void)signo;
 }
 
-static int	is_whitespace(char *line)
-{
-	while (*line)
-	{
-		if (*line != 32 && !(*line >= 9 && *line <= 13))
-		{
-			return (0);
-		}
-		line++;
-	}
-	return (1);
-}
-
 void	main_init(int argc, char *argv[])
 {
 	struct termios	term;
@@ -82,7 +71,8 @@ void	main_init(int argc, char *argv[])
 	tcgetattr(0, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(0, TCSANOW, &term);
-	signal(SIGINT, sigint_handler);
+	if (isatty(0))
+		signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigquit_handler);
 }
 
@@ -99,11 +89,15 @@ int	main(int argc, char *argv[], char *envp[])
 	while (!env.should_exit)
 	{
 		g_shell_state = SHELL_STATE_PARSE;
-		line = readline("minishell $ ");
+		if (isatty(0))
+			line = readline(get_prompt());
+		else
+			line = ft_get_next_line(0);
 		g_shell_state = SHELL_STATE_EXEC;
 		if (!line)
 		{
-			write(1, "\n", 1);
+			if (isatty(0))
+				write(1, "\n", 1);
 			break ;
 		}
 		if (*line != '\0')

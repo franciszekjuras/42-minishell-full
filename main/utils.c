@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:46:21 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/27 16:59:55 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/12/01 23:56:43 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,22 @@ void	*ft_malloc(size_t size, size_t n)
 	if (ret == NULL)
 		exit_with_err("malloc()", strerror(errno), EXIT_FAILURE);
 	return (ret);
+}
+
+int	is_whitespace(char *line)
+{
+	while (*line)
+	{
+		if (*line != 32 && !(*line >= 9 && *line <= 13))
+		{
+			return (0);
+		}
+		line++;
+	}
+	return (1);
+}
+
+const char	*get_prompt(void)
+{
+	return ("minishell $ ");
 }
