@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:46:21 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/02 18:12:10 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 18:42:01 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include <libft/libft.h>
 #include <interface/env.h>
 
-#define MINISH_COLOR_NAME "\e[42m mi\e[43mni\e[45msh\e[44mell \e[47m\e[m"
+#define MINISH_COLOR_NAME "\001\e[42m\002 mi\001\e[43m\002ni" \
+	"\001\e[45m\002sh\001\e[44m\002ell \001\e[m\002"
 
 void	exit_with_err(char *str1, char *str2, int exit_code)
 {
@@ -57,9 +58,9 @@ int	is_whitespace(char *line)
 const char	*get_prompt(t_env env)
 {
 	if (env.last_exit_status == 0)
-		return ("\e[1;36m*\e[m " MINISH_COLOR_NAME " ");
+		return ("\001\e[1;36m\002*\001\e[m\002 " MINISH_COLOR_NAME " ");
 	else if (env.last_exit_status > 128)
-		return ("\e[1;31m*\e[m " MINISH_COLOR_NAME " ");
+		return ("\001\e[1;31m\002*\001\e[m\002 " MINISH_COLOR_NAME " ");
 	else
-		return ("\e[1;33m*\e[m " MINISH_COLOR_NAME " ");
+		return ("\001\e[1;33m\002*\001\e[m\002 " MINISH_COLOR_NAME " ");
 }
