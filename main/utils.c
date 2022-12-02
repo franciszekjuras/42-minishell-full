@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:46:21 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/02 12:52:56 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 18:12:10 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ int	is_whitespace(char *line)
 const char	*get_prompt(t_env env)
 {
 	if (env.last_exit_status == 0)
-		return ("\e[32m^\e[m " MINISH_COLOR_NAME " ");
+		return ("\e[1;36m*\e[m " MINISH_COLOR_NAME " ");
+	else if (env.last_exit_status > 128)
+		return ("\e[1;31m*\e[m " MINISH_COLOR_NAME " ");
 	else
-		return ("\e[31m^\e[m " MINISH_COLOR_NAME " ");
+		return ("\e[1;33m*\e[m " MINISH_COLOR_NAME " ");
 }
