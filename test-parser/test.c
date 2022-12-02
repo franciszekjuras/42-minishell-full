@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 20:12:03 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/30 22:03:32 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/12/02 18:58:37 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <string.h>
 #include <interface/env.h>
 #include <interface/line.h>
-#include <interface/test_framework.h>
+#include <test_framework/test_framework.h>
 #include <parser/parser.h>
 
 t_env	g_env;

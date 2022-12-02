@@ -1,3 +1,5 @@
+#ifndef TEST_FRAMEWORK_H
+#define TEST_FRAMEWORK_H
 #ifndef TEST_LINE_H
 # define TEST_LINE_H
 
@@ -11,7 +13,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <unistd.h>
-# include "line.h"
+# include <interface/line.h>
 
 # define TEST_FILTER(filter) \
 do { \
@@ -532,5 +534,8 @@ int	test_main(int argc, char **argv)
 	close(2);
 	return (passed < total);
 }
+
+#endif
+
 
 #endif

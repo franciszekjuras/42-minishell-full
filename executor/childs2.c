@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:03:37 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/01 22:04:55 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 18:51:24 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	get_retval_from_exit_status(int exit_status)
 	else
 		return (128 + WTERMSIG(exit_status));
 }
-
 
 static void	childs_remove(t_childs *childs, pid_t child)
 {

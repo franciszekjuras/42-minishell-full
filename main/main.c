@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/02 12:56:01 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 18:43:10 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	main_init(int argc, char *argv[])
 	signal(SIGQUIT, sigquit_handler);
 }
 
-static	void read_and_exec_line(t_env *env)
+static void	read_and_exec_line(t_env *env)
 {
 	char			*line;
 	t_line			parsed_line;

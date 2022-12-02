@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 18:28:02 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/01 19:09:30 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 18:55:35 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ oR -- output redirection
 #include <executor/executor.h>
 #include <interface/env.h>
 #include <interface/line.h>
-#include <interface/test_framework.h>
+#include <test_framework/test_framework.h>
 
 #define GREP "/usr/bin/grep"
 #define CAT "/usr/bin/cat"

@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/01 18:52:22 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 18:51:17 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	app_free(t_app *app)
 
 void	app_exec_line(t_app *app, t_line line)
 {
-	int	i;
-	t_exec_data *exec_data_arr;
+	int			i;
+	t_exec_data	*exec_data_arr;
 
 	exec_data_arr = exec_data_arr_init(line.size);
 	i = 0;

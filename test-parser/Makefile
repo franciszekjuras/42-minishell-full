@@ -4,7 +4,7 @@ FILES = \
 	test
 
 HEADERS = \
-	../interface/line ../interface/test_framework
+	../interface/line ../test_framework/test_framework
 
 HFILES += $(HEADERS:%=%.h)
 OFILES = $(FILES:%=%.o)
