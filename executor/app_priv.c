@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/30 12:59:00 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 20:12:17 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,24 +77,24 @@ int	app_pipe(t_app *app,
 	}
 }
 
-static int	app_open_heredoc(char *delim)
+static int	app_open_heredoc(t_app *app, char *delim)
 {
 	int		doc_pipe[2];
 	char	*line;
-	char	*delim_nl;
 
 	if (pipe(doc_pipe) != 0)
 		return (-1);
-	delim_nl = ft_strjoin(delim, "\n");
 	line = ft_get_next_line(0);
-	while (line != NULL && ft_strcmp(line, delim_nl) != 0)
+	while (line != NULL && !is_line_eq_str(line, delim))
 	{
 		ft_putstr_fd(line, doc_pipe[1]);
 		free(line);
 		line = ft_get_next_line(0);
 	}
+	if (line == NULL)
+		ft_dprintf(2, "%s: heredoc: warning: %s encountered, wanted \'%s\' \n",
+			app->name, "end-of-file", delim);
 	free(line);
-	free(delim_nl);
 	close(doc_pipe[1]);
 	return (doc_pipe[0]);
 }
@@ -111,7 +111,7 @@ int	app_open(t_app *app, t_exec_data *exec_data, t_redir redir, int mode)
 	else if (mode == APP_OPEN_IN && !redir.is_alt)
 		fd = open(redir.path, O_RDONLY);
 	else if (mode == APP_OPEN_IN && redir.is_alt)
-		fd = app_open_heredoc(redir.path);
+		fd = app_open_heredoc(app, redir.path);
 	if (fd < 0)
 	{
 		if (mode == APP_OPEN_IN && redir.is_alt)

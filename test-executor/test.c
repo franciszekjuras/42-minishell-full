@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 18:28:02 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/02 18:55:35 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 20:09:04 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -878,7 +878,7 @@ int test_in_alt_redir(const char *filter)
 	d.i = 0;
 	test_line_init(&line, 1);
 	test_prog_args(&line.progs[d.i], CAT, NULL);
-	test_prog_redirs(&line.progs[d.i], "mouse", NULL);
+	test_prog_redirs(&line.progs[d.i], "eagle", NULL);
 	line.progs[d.i++].in_redir.is_alt = 1;
 	test_line_end(&line, d.i);
 	test_redirect_stdout("out/stdout.txt");
@@ -886,11 +886,54 @@ int test_in_alt_redir(const char *filter)
 	d.retval = minish_execute(&g_env, line);
 	test_restore_stdin();
 	test_close_stdout();
-	d.file_match = test_expect_file_content("out/stdout.txt", "snake", "horse", NULL);
+	d.file_match = test_expect_file_content("out/stdout.txt", "snake", "horse", "mouse", "dog", NULL);
 	d.retval_match = test_expect_retval(d.retval, 0);
 	return (TEST_END(d.retval_match && d.file_match));
 }
 
+int test_in_alt_redir_nonl(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+
+	TEST_START_CLEAN(filter);
+	d.i = 0;
+	test_line_init(&line, 1);
+	test_prog_args(&line.progs[d.i], CAT, NULL);
+	test_prog_redirs(&line.progs[d.i], "done", NULL);
+	line.progs[d.i++].in_redir.is_alt = 1;
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	test_redirect_stdin("in/no_nl.txt");
+	d.retval = minish_execute(&g_env, line);
+	test_restore_stdin();
+	test_close_stdout();
+	d.file_match = test_expect_file_content("out/stdout.txt", "sfag", "yolo", NULL);
+	d.retval_match = test_expect_retval(d.retval, 0);
+	return (TEST_END(d.retval_match && d.file_match));
+}
+
+int test_in_alt_redir_no_delim(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+
+	TEST_START_CLEAN(filter);
+	d.i = 0;
+	test_line_init(&line, 1);
+	test_prog_args(&line.progs[d.i], CAT, NULL);
+	test_prog_redirs(&line.progs[d.i], "randombash", NULL);
+	line.progs[d.i++].in_redir.is_alt = 1;
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	test_redirect_stdin("in/no_nl.txt");
+	d.retval = minish_execute(&g_env, line);
+	test_restore_stdin();
+	test_close_stdout();
+	d.file_match = test_expect_file_content("out/stdout.txt", "sfag", "yolo", "done", NULL);
+	d.retval_match = test_expect_retval(d.retval, 0);
+	return (TEST_END(d.retval_match && d.file_match));
+}
 
 int test_out_alt_redir(const char *filter)
 {
@@ -961,6 +1004,8 @@ const t_test_function g_test_functions[] =
 	test_builtin_cd_invalid_arg_number,
 	test_builtin_cd_invalid_path,
 	test_in_alt_redir,
+	test_in_alt_redir_nonl,
+	test_in_alt_redir_no_delim,
 	test_out_alt_redir,
 	NULL
 };

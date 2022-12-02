@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/04 23:51:13 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/02 20:11:46 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,15 @@ int	check_if_path_is_executable(char *path, char *prog, char **candidate)
 	}
 	free(full_path);
 	return (is_executable);
+}
+
+int	is_line_eq_str(char *line, char *str)
+{
+	char	*adv;
+
+	adv = ft_str_advance_str(line, str);
+	if (adv != NULL && (*adv == '\n' || *adv == '\0'))
+		return (1);
+	else
+		return (0);
 }
