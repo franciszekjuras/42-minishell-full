@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 17:51:27 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/11 23:41:49 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/12/12 20:17:25 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_line translate(t_cmd *cmd)
     cur_cmd = cmd;
     while (cur_cmd)
     {
+        line.progs[idx].in_redir.path = NULL;
+        line.progs[idx].out_redir.path = NULL;
         line.progs[idx].args = ft_calloc(cur_cmd->argc + 1, sizeof(char *));
         for (int i = 0; i < cur_cmd->argc; i++)
         {
@@ -43,25 +45,25 @@ t_line translate(t_cmd *cmd)
             if (ft_strcmp(line.progs[idx].args[i], "<") == 0)
             {
                 line.progs[idx].in_redir.path = ft_strdup(cur_cmd->argv[++i]);
-                //line.progs[idx].in_redir.is_alt = 0;
+                line.progs[idx].in_redir.is_alt = 0;
                 printf("%s\n", line.progs[idx].in_redir.path);
             }
             else if (ft_strcmp(line.progs[idx].args[i], ">") == 0)
             {
                 line.progs[idx].out_redir.path = ft_strdup(cur_cmd->argv[++i]);
-                //line.progs[idx].out_redir.is_alt = 0;
+                line.progs[idx].out_redir.is_alt = 0;
                 printf("%s\n", line.progs[idx].out_redir.path);
             }
             else if (ft_strcmp(line.progs[idx].args[i], "<<") == 0)
             {
                 line.progs[idx].in_redir.path = ft_strdup(cur_cmd->argv[++i]);
-                //line.progs[idx].in_redir.is_alt = 1;
+                line.progs[idx].in_redir.is_alt = 1;
                 printf("%s\n", line.progs[idx].in_redir.path);
             }
             else if (ft_strcmp(line.progs[idx].args[i], ">>") == 0)
             {
                 line.progs[idx].out_redir.path = ft_strdup(cur_cmd->argv[++i]);
-                //line.progs[idx].out_redir.is_alt = 1;
+                line.progs[idx].out_redir.is_alt = 1;
                 printf("%s\n", line.progs[idx].out_redir.path);
             }
             else
