@@ -3,3 +3,4 @@ test_sysfail
 megaphone
 *.o
 out/
+*.txt
