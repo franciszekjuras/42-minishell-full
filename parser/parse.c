@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/15 21:06:29 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/15 21:42:05 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,10 @@ t_line	parse(char *line, t_env head)
 	while (cmd->prev != NULL)
 		cmd = cmd->prev;
 	replace(cmd, head);
+	for (int i = 0; i < cmd->argc; i++)
+	{
+		printf("argv: %s\n", cmd->argv[i]); // for testing
+	}
 	argc_checker(&cmd);
 	parsed_line = translate(cmd);
 	ft_free_list(cmd);
