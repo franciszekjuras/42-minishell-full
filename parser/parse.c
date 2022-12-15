@@ -6,16 +6,17 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/01 20:53:05 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/15 21:06:29 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static char	*parse_in_pipe(char *str, int *pipe, t_cmd **cmd, t_cmd *next)
+// BUG: we cannot exit in case of parsing error, instead, error message
+// should be printed and new prompt shown
+static char	*parse_in_pipe(char *str, int *pipe, t_cmd **cmd)
 {
-	// BUG: we cannot exit in case of parsing error, instead, error message
-	// should be printed and new prompt shown
+	t_cmd	*next;
 
 	if (*pipe == 1)
 		exit_with_err("argv error", "||", 1);
@@ -79,7 +80,6 @@ static char	*parse_out_pipe(char *str, char *line, int quotes, int *pipe)
 t_line	parse(char *line, t_env head)
 {
 	t_cmd	*cmd;
-	t_cmd	*next;
 	char	*str;
 	int		quotes;
 	int		pipe;
@@ -87,14 +87,13 @@ t_line	parse(char *line, t_env head)
 
 	cmd = ft_list_init();
 	str = NULL;
-	next = NULL;
 	quotes = 0;
 	pipe = 0;
 	while (*line)
 	{
 		quotes = parse_set_quotes(*line, quotes, cmd);
 		if (*line == '|' && quotes == 0)
-			str = parse_in_pipe(str, &pipe, &cmd, next);
+			str = parse_in_pipe(str, &pipe, &cmd);
 		else
 			str = parse_out_pipe(str, line, quotes, &pipe);
 		line++;
@@ -106,7 +105,9 @@ t_line	parse(char *line, t_env head)
 	{
 		cmd->argv = ft_split_argc(str, ' ', &(cmd->argc));
 		str = ft_free(str);
-	}	
+	}
+	while (cmd->prev != NULL)
+		cmd = cmd->prev;
 	replace(cmd, head);
 	argc_checker(&cmd);
 	parsed_line = translate(cmd);
