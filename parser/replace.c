@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/15 21:42:03 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/12/15 22:48:40 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	replace(t_cmd *cmd, t_env env)
 			else
 				argv_change(cmd, new, i);
 			i++;
-			printf("replace: %s\n", new); // for testing
+			// printf("replace: %s\n", new); // for testing
 		}
 		cmd = cmd->next;
 	}

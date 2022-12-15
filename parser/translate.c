@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 17:51:27 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/15 22:32:45 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/12/15 22:49:20 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,31 @@ t_line translate(t_cmd *cmd)
             {
                 line.progs[idx].in_redir.path = ft_strdup(cur_cmd->argv[++i]);
                 line.progs[idx].in_redir.is_alt = 0;
-                printf("path: %s\n", line.progs[idx].in_redir.path);
+                // printf("path: %s\n", line.progs[idx].in_redir.path);
             }
             else if (ft_strcmp(cur_cmd->argv[i], ">") == 0)
             {
                 line.progs[idx].out_redir.path = ft_strdup(cur_cmd->argv[++i]);
                 line.progs[idx].out_redir.is_alt = 0;
-                printf("path: %s\n", line.progs[idx].out_redir.path);
+                // printf("path: %s\n", line.progs[idx].out_redir.path);
             }
             else if (ft_strcmp(cur_cmd->argv[i], "<<") == 0)
             {
                 line.progs[idx].in_redir.path = ft_strdup(cur_cmd->argv[++i]);
                 line.progs[idx].in_redir.is_alt = 1;
-                printf("path: %s\n", line.progs[idx].in_redir.path);
+                // printf("path: %s\n", line.progs[idx].in_redir.path);
             }
             else if (ft_strcmp(cur_cmd->argv[i], ">>") == 0)
             {
                 line.progs[idx].out_redir.path = ft_strdup(cur_cmd->argv[++i]);
                 line.progs[idx].out_redir.is_alt = 1;
-                printf("path: %s\n", line.progs[idx].out_redir.path);
+                // printf("path: %s\n", line.progs[idx].out_redir.path);
             }
             else
             {
                 line.progs[idx].args[j++] = ft_strdup(cur_cmd->argv[i]);
             }
-            printf("line: %d %s\n", j, line.progs[idx].args[j]);
+            // printf("line: %d %s\n", j, line.progs[idx].args[j]);
         }
         idx++;
         cur_cmd = cur_cmd->next;
