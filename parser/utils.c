@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:46:21 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/16 11:49:52 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/16 12:51:44 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,12 @@
 #include <string.h>
 #include <errno.h>
 #include <libft/libft.h>
+#include "parser.h"
 
-void	exit_with_err(char *str1, char *str2, int exit_code)
+void	init_parse_data(t_parse_data *pd)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(str1, 2);
-	if (str2)
-	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(str2, 2);
-	}
-	ft_putstr_fd("\n", 2);
-	exit(exit_code);
+	pd->cmd = ft_list_init();
+	pd->str = NULL;
+	pd->quotes = 0;
+	pd->pipe = 0;
 }

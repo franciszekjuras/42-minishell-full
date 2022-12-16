@@ -6,29 +6,28 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/15 22:50:04 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/16 12:43:01 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-// BUG: we cannot exit in case of parsing error, instead, error message
-// should be printed and new prompt shown
-static char	*parse_in_pipe(char *str, int *pipe, t_cmd **cmd)
+static int parse_in_pipe(t_parse_data *pd)
 {
 	t_cmd	*next;
 
-	if (*pipe == 1)
-		exit_with_err("argv error", "||", 1);
-	(*cmd)->is_pipe = true;
-	(*cmd)->argv = ft_split_argc(str, ' ', &((*cmd)->argc));
+	if (pd->pipe == 1)
+		return (0);
+		// exit_with_err("argv error", "||", 1);
+	pd->cmd->is_pipe = true;
+	pd->cmd->argv = ft_split_argc(pd->str, ' ', &(pd->cmd->argc));
 	next = ft_list_init();
-	(*cmd)->next = next;
-	next->prev = (*cmd);
-	(*cmd) = next;
-	str = ft_free(str);
-	*pipe = 1;
-	return (str);
+	pd->cmd->next = next;
+	next->prev = pd->cmd;
+	pd->cmd = next;
+	pd->str = ft_free(pd->str);
+	pd->pipe = 1;
+	return (1);
 }
 
 static char	*add_redirect_space(char *str, char *line, char c)
@@ -58,63 +57,64 @@ static char	*add_redirect_space(char *str, char *line, char c)
 	return (str);
 }
 
-static char	*parse_out_pipe(char *str, char *line, int quotes, int *pipe)
+static int	parse_out_pipe(char *line, t_parse_data *pd)
 {
-	// BUG: we cannot exit in case of parsing error
-	if ((*line == ';' || *line == '\\') && quotes == 0)
-		exit_with_err("symbol error", line, 1);
-	else if (quotes != 0 && *line == ' ')
-		str = ft_strjoin_char(str, -32);
-	else if (quotes == 0 && ft_isspace(*line))
-		str = ft_strjoin_char(str, ' ');
-	else if ((*line == '>' || *line == '<') && quotes == 0)
-		str = add_redirect_space(str, line, *line);
+	if ((*line == ';' || *line == '\\') && pd->quotes == 0)
+		return (0);
+		// exit_with_err("symbol error", line, 1);
+	else if (pd->quotes != 0 && *line == ' ')
+		pd->str = ft_strjoin_char(pd->str, -32);
+	else if (pd->quotes == 0 && ft_isspace(*line))
+		pd->str = ft_strjoin_char(pd->str, ' ');
+	else if ((*line == '>' || *line == '<') && pd->quotes == 0)
+		pd->str = add_redirect_space(pd->str, line, *line);
 	else
 	{
-		str = ft_strjoin_char(str, line[0]);
-		*pipe = 0;
+		pd->str = ft_strjoin_char(pd->str, line[0]);
+		pd->pipe = 0;
 	}
-	return (str);
+	return (1);
 }
 
 t_line	parse(char *line, t_env head)
 {
-	t_cmd	*cmd;
-	char	*str;
-	int		quotes;
-	int		pipe;
-	t_line	parsed_line;
+	t_line			parsed_line;
+	t_parse_data	pd;
 
-	cmd = ft_list_init();
-	str = NULL;
-	quotes = 0;
-	pipe = 0;
+	init_parse_data(&pd);
+	parsed_line.size = 0;
 	while (*line)
 	{
-		quotes = parse_set_quotes(*line, quotes, cmd);
-		if (*line == '|' && quotes == 0)
-			str = parse_in_pipe(str, &pipe, &cmd);
+		pd.quotes = parse_set_quotes(*line, pd.quotes, pd.cmd);
+		if (*line == '|' && pd.quotes == 0)
+		{
+			if (!parse_in_pipe(&pd))
+				return(parsed_line);
+		}
 		else
-			str = parse_out_pipe(str, line, quotes, &pipe);
+		{
+			if (!parse_out_pipe(line, &pd))
+				return (parsed_line);
+		}
 		line++;
 	}
-	// BUG: we cannot exit in case of parsing error
-	if (quotes != 0)
-		exit_with_err("quotes error", NULL, 1);
-	if (str != NULL)
+	if (pd.quotes != 0)
+		return (parsed_line);
+		// exit_with_err("quotes error", NULL, 1);
+	if (pd.str != NULL)
 	{
-		cmd->argv = ft_split_argc(str, ' ', &(cmd->argc));
-		str = ft_free(str);
+		pd.cmd->argv = ft_split_argc(pd.str, ' ', &(pd.cmd->argc));
+		pd.str = ft_free(pd.str);
 	}
-	while (cmd->prev != NULL)
-		cmd = cmd->prev;
-	replace(cmd, head);
+	while (pd.cmd->prev != NULL)
+		pd.cmd = pd.cmd->prev;
+	replace(pd.cmd, head);
 	// for (int i = 0; i < cmd->argc; i++)
 	// {
 	// 	printf("argv: %s\n", cmd->argv[i]); // for testing
 	// }
-	argc_checker(&cmd);
-	parsed_line = translate(cmd);
-	ft_free_list(cmd);
+	argc_checker(&pd.cmd);
+	parsed_line = translate(pd.cmd);
+	ft_free_list(pd.cmd);
 	return (parsed_line);
 }

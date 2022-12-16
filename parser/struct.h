@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:09:22 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/27 19:36:19 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/16 12:02:44 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct s_cmd
 	int				argc;
 	bool			is_pipe;
 	bool			is_dollar;
-	int				fd[2];
 	int				infile;
 	int				outfile;
 	char			*cmd_path;

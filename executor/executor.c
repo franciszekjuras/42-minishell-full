@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 14:13:59 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/01 14:43:34 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/16 12:48:14 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int	minish_execute(t_env *env, t_line line)
 	t_app		app;
 	int			retval;
 
+	if (line.size == 0)
+	{
+		env->last_exit_status = 127;
+		return (env->last_exit_status);
+	}
 	app_init(&app, env, line.size, "minish");
 	app_exec_line(&app, line);
 	retval = childs_wait_until_all_exit(&app.childs);

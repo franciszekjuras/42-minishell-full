@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:00:29 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/19 11:54:48 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/12/16 12:02:41 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ t_cmd	*ft_list_init(void)
 	new_mem->argc = 0;
 	new_mem->argv = NULL;
 	new_mem->is_dollar = false;
-	new_mem->fd[0] = -2;
-	new_mem->fd[1] = -2;
 	new_mem->infile = -2;
 	new_mem->outfile = -2;
 	new_mem->cmd_path = NULL;
