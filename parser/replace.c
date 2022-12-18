@@ -77,14 +77,6 @@ static char	*replace_while_else(char c, char *new, int quotes)
 	return (result);
 }
 
-static int	dollar_check(char c)
-{
-	if (ft_isalnum(c) || c == '_' || c == '$')
-		return (1);
-	else
-		return (0);
-}
-
 static char	*replace_while(t_cmd *cmd, t_env env, int i)
 {
 	int		j;

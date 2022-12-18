@@ -38,5 +38,6 @@ void	argv_change(t_cmd *cmd, char *new, int i);
 char	*ft_strjoin_free(char *s1, char *s2);
 void	init_parse_data(t_parse_data *pd);
 t_line	translate(t_cmd *cmd);
+int		dollar_check(char c);
 
 #endif

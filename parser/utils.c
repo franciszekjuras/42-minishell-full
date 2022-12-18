@@ -16,6 +16,14 @@
 #include <libft/libft.h>
 #include "parser.h"
 
+int	dollar_check(char c)
+{
+	if (ft_isalnum(c) || c == '_' || c == '$')
+		return (1);
+	else
+		return (0);
+}
+
 void	init_parse_data(t_parse_data *pd)
 {
 	pd->cmd = ft_list_init();
