@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
-#define STRUCT_H
+# define STRUCT_H
 
 # include <stdbool.h>
 # include <stdlib.h>

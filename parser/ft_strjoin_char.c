@@ -22,5 +22,5 @@ char	*ft_strjoin_char(char *s1, char s2)
 	{
 		return (ft_strdup(arr));
 	}
-	return(ft_strjoin(s1, arr));
+	return (ft_strjoin(s1, arr));
 }

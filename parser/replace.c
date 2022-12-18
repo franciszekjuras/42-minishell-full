@@ -12,17 +12,17 @@
 
 #include "parser.h"
 
-static char *get_env(t_env env, char *key)
+static char	*get_env(t_env env, char *key)
 {
 	char	**var;
 	char	*key_end;
 
 	var = env.vars;
-	while(*var)
+	while (*var)
 	{
 		key_end = ft_str_advance_str(*var, key);
 		if (key_end != NULL && *key_end == '=')
-    		return(key_end + 1);
+			return (key_end + 1);
 		var++;
 	}
 	return ("");
@@ -134,7 +134,6 @@ void	replace(t_cmd *cmd, t_env env)
 			else
 				argv_change(cmd, new, i);
 			i++;
-			// printf("replace: %s\n", new); // for testing
 		}
 		cmd = cmd->next;
 	}

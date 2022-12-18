@@ -30,7 +30,7 @@ typedef struct s_parse_data
 char	**ft_split_argc(char const *s, char c, int *argc);
 char	*ft_strjoin_char(char *s1, char s2);
 int		parse_set_quotes(char line, int quotes, t_cmd *cmd);
-t_line	parse(char *line,  t_env env);
+t_line	parse(char *line, t_env env);
 void	replace(t_cmd *cmd, t_env env);
 void	delete_argv(t_cmd *cmd, int *i);
 void	argc_checker(t_cmd **cmd);

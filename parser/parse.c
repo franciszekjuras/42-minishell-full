@@ -12,13 +12,12 @@
 
 #include "parser.h"
 
-static int parse_in_pipe(t_parse_data *pd)
+static int	parse_in_pipe(t_parse_data *pd)
 {
 	t_cmd	*next;
 
 	if (pd->pipe == 1)
-		return (0);
-		// exit_with_err("argv error", "||", 1);
+		return (0); // exit_with_err("argv error", "||", 1);
 	pd->cmd->is_pipe = true;
 	pd->cmd->argv = ft_split_argc(pd->str, ' ', &(pd->cmd->argc));
 	next = ft_list_init();
@@ -60,8 +59,7 @@ static char	*add_redirect_space(char *str, char *line, char c)
 static int	parse_out_pipe(char *line, t_parse_data *pd)
 {
 	if ((*line == ';' || *line == '\\') && pd->quotes == 0)
-		return (0);
-		// exit_with_err("symbol error", line, 1);
+		return (0); // exit_with_err("symbol error", line, 1);
 	else if (pd->quotes != 0 && *line == ' ')
 		pd->str = ft_strjoin_char(pd->str, -32);
 	else if (pd->quotes == 0 && ft_isspace(*line))
@@ -89,7 +87,7 @@ t_line	parse(char *line, t_env head)
 		if (*line == '|' && pd.quotes == 0)
 		{
 			if (!parse_in_pipe(&pd))
-				return(parsed_line);
+				return (parsed_line);
 		}
 		else
 		{
@@ -99,8 +97,7 @@ t_line	parse(char *line, t_env head)
 		line++;
 	}
 	if (pd.quotes != 0)
-		return (parsed_line);
-		// exit_with_err("quotes error", NULL, 1);
+		return (parsed_line); // exit_with_err("quotes error", NULL, 1);
 	if (pd.str != NULL)
 	{
 		pd.cmd->argv = ft_split_argc(pd.str, ' ', &(pd.cmd->argc));
@@ -109,10 +106,6 @@ t_line	parse(char *line, t_env head)
 	while (pd.cmd->prev != NULL)
 		pd.cmd = pd.cmd->prev;
 	replace(pd.cmd, head);
-	// for (int i = 0; i < cmd->argc; i++)
-	// {
-	// 	printf("argv: %s\n", cmd->argv[i]); // for testing
-	// }
 	argc_checker(&pd.cmd);
 	parsed_line = translate(pd.cmd);
 	ft_free_list(pd.cmd);
