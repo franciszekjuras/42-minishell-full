@@ -3,89 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_argc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:41:04 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/19 11:53:58 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/12/18 19:55:48 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static void	*is_free(char **str, int str_index)
+char	**ft_split_argc(char const *s, int *argc)
 {
-	int	i;
-
-	i = 0;
-	while (i < str_index)
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-	return (NULL);
-}
-
-static int	get_word_cnt(char const *str, char c)
-{
-	size_t	count;
-	int		chker;
-
-	count = 0;
-	chker = 1;
-	while (*str != '\0' && *str == c)
-		str++;
-	while (*str)
-	{
-		if (chker == 1 && *str != c)
-		{
-			count++;
-			chker = 0;
-		}
-		if (*str == c)
-			chker = 1;
-		str++;
-	}
-	return (count);
-}
-
-static char	**set_worddup(char const *s, char c, char **mem)
-{
-	size_t	word_length;
+	char	**argv;
 	int		i;
 
+	argv = ft_split(s, ' ');
 	i = 0;
-	while (*s)
-	{
-		while (*s && *s == c)
-			s++;
-		if (!*s)
-			break ;
-		word_length = 0;
-		while (s[word_length] && s[word_length] != c)
-			word_length++;
-		mem[i] = (char *)malloc(sizeof(char) * (word_length + 1));
-		if (!mem[i])
-			return (is_free(mem, i));
-		ft_strlcpy(mem[i], s, word_length + 1);
-		s = s + word_length;
-		i++;
-	}
-	mem[i] = NULL;
-	return (mem);
-}
-
-char	**ft_split_argc(char const *s, char c, int *argc)
-{
-	char	**new_mem;
-
-	new_mem = NULL;
-	if (!s)
-		return (NULL);
-	*argc = get_word_cnt(s, c);
-	new_mem = (char **)malloc(sizeof(char *) * (*argc + 1));
-	if (!new_mem)
-		return (NULL);
-	new_mem = set_worddup(s, c, new_mem);
-	return (new_mem);
+	while (argv[i] != NULL)
+		++i;
+	*argc = i;
+	return (argv);
 }

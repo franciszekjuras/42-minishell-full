@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:46:48 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/16 12:51:10 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/18 19:54:10 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_parse_data
 	int		pipe;
 }	t_parse_data;
 
-char	**ft_split_argc(char const *s, char c, int *argc);
+char	**ft_split_argc(char const *s, int *argc);
 char	*ft_strjoin_char(char *s1, char s2);
 int		parse_set_quotes(char line, int quotes, t_cmd *cmd);
 t_line	parse(char *line, t_env env);

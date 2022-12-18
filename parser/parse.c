@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/16 12:43:01 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/18 19:54:40 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	parse_in_pipe(t_parse_data *pd)
 	if (pd->pipe == 1)
 		return (0); // exit_with_err("argv error", "||", 1);
 	pd->cmd->is_pipe = true;
-	pd->cmd->argv = ft_split_argc(pd->str, ' ', &(pd->cmd->argc));
+	pd->cmd->argv = ft_split_argc(pd->str, &(pd->cmd->argc));
 	next = ft_list_init();
 	pd->cmd->next = next;
 	next->prev = pd->cmd;
@@ -100,7 +100,7 @@ t_line	parse(char *line, t_env head)
 		return (parsed_line); // exit_with_err("quotes error", NULL, 1);
 	if (pd.str != NULL)
 	{
-		pd.cmd->argv = ft_split_argc(pd.str, ' ', &(pd.cmd->argc));
+		pd.cmd->argv = ft_split_argc(pd.str, &(pd.cmd->argc));
 		pd.str = ft_free(pd.str);
 	}
 	while (pd.cmd->prev != NULL)

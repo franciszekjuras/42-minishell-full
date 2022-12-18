@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/15 22:48:40 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/18 20:12:30 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static char	*get_env(t_env env, char *key)
 
 static char	*replace_while_dollar(char str, char *new, t_env env, int quotes)
 {
-	static char	*env_var = NULL;
+	static char	*env_var = NULL; //TODO: static variables are terribly error prone 
+	// and impossible to test properly - it has to be removed
 
 	if (ft_isalnum(str) || str == '_')
 		env_var = ft_strjoin_char(env_var, str);
@@ -117,7 +118,7 @@ void	replace(t_cmd *cmd, t_env env)
 		{
 			new = replace_while(cmd, env, i);
 			if (new == NULL && cmd->is_dollar)
-				delete_argv(cmd, &i);
+				delete_argv(cmd, &i); // TODO: write a test or remove
 			else if (new == NULL)
 			{
 				new = ft_strdup("");

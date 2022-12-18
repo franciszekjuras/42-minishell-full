@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argc_checker.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:57:20 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/11/20 17:52:40 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2022/12/18 20:12:53 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	first(t_cmd *tmp, t_cmd **ptr, t_cmd **head)
 	*ptr = tmp;
 }
 
+//TODO: why do we check argc values? Either write a testcase for it or remove it
 void	argc_checker(t_cmd **cmd)
 {
 	t_cmd	*ptr;

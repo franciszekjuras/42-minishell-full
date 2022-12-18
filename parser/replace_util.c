@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:11:34 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/16 11:47:45 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/18 19:38:38 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 
 	if (s1 == NULL)
 		return (ft_strdup(s2));
-	new_str = ft_strjoin(s1, s2);
+	new_str = ft_strjoin(s1, s2); //TODO: write a test where s1 != NULL
 	free(s1);
 	return (new_str);
 }
