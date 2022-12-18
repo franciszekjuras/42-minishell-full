@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/18 19:54:40 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/19 00:15:54 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ static int	parse_in_pipe(t_parse_data *pd)
 {
 	t_cmd	*next;
 
-	if (pd->pipe == 1)
-		return (0); // exit_with_err("argv error", "||", 1);
+	if (pd->pipe == 1 || pd->str == NULL)
+		return (0);
 	pd->cmd->is_pipe = true;
 	pd->cmd->argv = ft_split_argc(pd->str, &(pd->cmd->argc));
+	if (pd->cmd->argc == 0)
+		return (0);
 	next = ft_list_init();
 	pd->cmd->next = next;
 	next->prev = pd->cmd;
@@ -74,6 +76,18 @@ static int	parse_out_pipe(char *line, t_parse_data *pd)
 	return (1);
 }
 
+static t_line	parse_err_cleanup(const char *err_str, char c, t_parse_data pd)
+{
+	t_line	empty_line;
+
+	ft_dprintf(2, "minish: parsing error: %s: %c\n", err_str, c);
+	ft_free_list(pd.cmd);
+	free(pd.str);
+	empty_line.progs = NULL;
+	empty_line.size = 0;
+	return (empty_line);
+}
+
 t_line	parse(char *line, t_env head)
 {
 	t_line			parsed_line;
@@ -87,22 +101,28 @@ t_line	parse(char *line, t_env head)
 		if (*line == '|' && pd.quotes == 0)
 		{
 			if (!parse_in_pipe(&pd))
-				return (parsed_line);
+				return (parse_err_cleanup("unexpected character", *line, pd));
 		}
 		else
 		{
 			if (!parse_out_pipe(line, &pd))
-				return (parsed_line);
+				return (parse_err_cleanup("unexpected character", *line, pd));
 		}
 		line++;
 	}
-	if (pd.quotes != 0)
-		return (parsed_line); // exit_with_err("quotes error", NULL, 1);
+	if (pd.quotes == 1)
+		return (parse_err_cleanup("unclosed quote", '\'', pd));
+	if (pd.quotes == 2)
+		return (parse_err_cleanup("unclosed quote", '\"', pd));
 	if (pd.str != NULL)
 	{
 		pd.cmd->argv = ft_split_argc(pd.str, &(pd.cmd->argc));
+		if (pd.cmd->argc == 0)
+			return (parse_err_cleanup("expected command after pipe", '|', pd));
 		pd.str = ft_free(pd.str);
 	}
+	else
+		return (parse_err_cleanup("expected command after pipe", '|', pd));
 	while (pd.cmd->prev != NULL)
 		pd.cmd = pd.cmd->prev;
 	replace(pd.cmd, head);
