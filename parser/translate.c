@@ -27,6 +27,38 @@ static int	ft_cmd_len(t_cmd *cur_cmd)
 	return (len);
 }
 
+static int	ft_translate_redir(t_cmd *cur_cmd, t_line *line, int idx, int *i)
+{
+	int	flag;
+
+	flag = 1;
+	if (ft_strcmp(cur_cmd->argv[*i], "<") == 0)
+	{
+		line->progs[idx].in_redir.path = ft_strdup(cur_cmd->argv[++*(i)]);
+		line->progs[idx].in_redir.is_alt = 0;
+	}
+	else if (ft_strcmp(cur_cmd->argv[*i], ">") == 0)
+	{
+		line->progs[idx].out_redir.path = ft_strdup(cur_cmd->argv[++*(i)]);
+		line->progs[idx].out_redir.is_alt = 0;
+	}
+	else if (ft_strcmp(cur_cmd->argv[*i], "<<") == 0)
+	{
+		line->progs[idx].in_redir.path = ft_strdup(cur_cmd->argv[++*(i)]);
+		line->progs[idx].in_redir.is_alt = 1;
+	}
+	else if (ft_strcmp(cur_cmd->argv[*i], ">>") == 0)
+	{
+		line->progs[idx].out_redir.path = ft_strdup(cur_cmd->argv[++*(i)]);
+		line->progs[idx].out_redir.is_alt = 1;
+	}
+	else
+	{
+		flag = 0;
+	}
+	return (flag);
+}
+
 t_line	translate(t_cmd *cmd)
 {
 	int		idx;
@@ -48,27 +80,7 @@ t_line	translate(t_cmd *cmd)
 		j = 0;
 		while (i < cur_cmd->argc)
 		{
-			if (ft_strcmp(cur_cmd->argv[i], "<") == 0)
-			{
-				line.progs[idx].in_redir.path = ft_strdup(cur_cmd->argv[++i]);
-				line.progs[idx].in_redir.is_alt = 0;
-			}
-			else if (ft_strcmp(cur_cmd->argv[i], ">") == 0)
-			{
-				line.progs[idx].out_redir.path = ft_strdup(cur_cmd->argv[++i]);
-				line.progs[idx].out_redir.is_alt = 0;
-			}
-			else if (ft_strcmp(cur_cmd->argv[i], "<<") == 0)
-			{
-				line.progs[idx].in_redir.path = ft_strdup(cur_cmd->argv[++i]);
-				line.progs[idx].in_redir.is_alt = 1;
-			}
-			else if (ft_strcmp(cur_cmd->argv[i], ">>") == 0)
-			{
-				line.progs[idx].out_redir.path = ft_strdup(cur_cmd->argv[++i]);
-				line.progs[idx].out_redir.is_alt = 1;
-			}
-			else
+			if (!ft_translate_redir(cur_cmd, &line, idx, &i))
 			{
 				line.progs[idx].args[j++] = ft_strdup(cur_cmd->argv[i]);
 			}
