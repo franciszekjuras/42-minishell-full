@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:11:34 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/18 19:38:38 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/19 13:06:49 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,12 @@ void	argv_change(t_cmd *cmd, char *new, int i)
 {
 	cmd->argv[i] = ft_free(cmd->argv[i]);
 	cmd->argv[i] = new;
+}
+
+void	replace_data_init(t_replace_data *rd, t_cmd *cmd, t_env env)
+{
+	rd->dollar = 0;
+	rd->quotes = 0;
+	rd->cmd = cmd;
+	rd->env = env;
 }

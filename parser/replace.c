@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/18 20:12:30 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/19 13:20:30 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,26 @@ static char	*get_env(t_env env, char *key)
 	return ("");
 }
 
-static char	*replace_while_dollar(char str, char *new, t_env env, int quotes)
+static char	*replace_while_dollar(
+	char c, char *new, char **env_var, t_replace_data rd)
 {
-	static char	*env_var = NULL; //TODO: static variables are terribly error prone 
-	// and impossible to test properly - it has to be removed
-
-	if (ft_isalnum(str) || str == '_')
-		env_var = ft_strjoin_char(env_var, str);
-	else if (str == '?' && env_var == NULL)
+	if (ft_isalnum(c) || c == '_')
+		*env_var = ft_strjoin_char(*env_var, c);
+	else if (c == '?' && *env_var == NULL)
 	{
-		env_var = ft_itoa(env.last_exit_status);
-		new = ft_strjoin_free(new, env_var);
-		env_var = ft_free(env_var);
+		*env_var = ft_itoa(rd.env.last_exit_status);
+		new = ft_strjoin_free(new, *env_var);
+		*env_var = ft_free(*env_var);
 	}
 	else
 	{
-		if (env_var != NULL)
+		if (*env_var != NULL)
 		{
-			new = ft_strjoin_free(new, get_env(env, env_var));
-			if (!(str == '\"' && quotes != 1) && !(str == '\'' && quotes != 2))
-				new = ft_strjoin_char(new, str);
-			env_var = ft_free(env_var);
+			new = ft_strjoin_free(new, get_env(rd.env, *env_var));
+			if (!(c == '\"' && rd.quotes != 1)
+				&& !(c == '\'' && rd.quotes != 2))
+				new = ft_strjoin_char(new, c);
+			*env_var = ft_free(*env_var);
 		}
 		else
 			new = ft_strjoin_char(new, '$');
@@ -80,27 +79,27 @@ static char	*replace_while_else(char c, char *new, int quotes)
 
 static char	*replace_while(t_cmd *cmd, t_env env, int i)
 {
-	int		j;
-	char	*new;
-	int		dollar;
-	int		quotes;
+	int				j;
+	char			*new;
+	char			*env_var;
+	t_replace_data	rd;
 
-	quotes = 0;
-	dollar = 0;
+	replace_data_init(&rd, cmd, env);
 	j = 0;
 	new = NULL;
+	env_var = NULL;
 	while (j <= (int)ft_strlen(cmd->argv[i]))
 	{
-		quotes = parse_set_quotes(cmd->argv[i][j], quotes, cmd);
-		if (cmd->argv[i][j] == '$' && quotes != 1 && dollar == 0)
-			dollar = 1;
-		else if (dollar == 1)
+		rd.quotes = parse_set_quotes(cmd->argv[i][j], rd.quotes, cmd);
+		if (cmd->argv[i][j] == '$' && rd.quotes != 1 && rd.dollar == 0)
+			rd.dollar = 1;
+		else if (rd.dollar == 1)
 		{
-			new = replace_while_dollar(cmd->argv[i][j], new, env, quotes);
-			dollar = dollar_check(cmd->argv[i][j]);
+			new = replace_while_dollar(cmd->argv[i][j], new, &env_var, rd);
+			rd.dollar = dollar_check(cmd->argv[i][j]);
 		}
 		else
-			new = replace_while_else(cmd->argv[i][j], new, quotes);
+			new = replace_while_else(cmd->argv[i][j], new, rd.quotes);
 		j++;
 	}
 	return (new);
