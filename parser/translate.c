@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 17:51:27 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/15 22:49:20 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/30 14:27:41 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ static int	ft_translate_redir(t_cmd *cur_cmd, t_line *line, int idx, int *i)
 	int	flag;
 
 	flag = 1;
+
+	if (cur_cmd->argc == 1)
+	{
+		return (0);
+	}
 	if (ft_strcmp(cur_cmd->argv[*i], "<") == 0)
 	{
 		line->progs[idx].in_redir.path = ft_strdup(cur_cmd->argv[++*(i)]);
