@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:46:48 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/19 13:20:00 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/12/31 23:33:15 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,9 @@ char	*ft_strjoin_free(char *s1, char *s2);
 void	init_parse_data(t_parse_data *pd);
 t_line	translate(t_cmd *cmd);
 int		dollar_check(char c);
+void	ft_translate_redir_in_0(t_cmd *cur_cmd, t_line *line, int idx, int *i);
+void	ft_translate_redir_in_1(t_cmd *cur_cmd, t_line *line, int idx, int *i);
+void	ft_translate_redir_out_0(t_cmd *cur_cmd, t_line *line, int idx, int *i);
+void	ft_translate_redir_out_1(t_cmd *cur_cmd, t_line *line, int idx, int *i);
 
 #endif
