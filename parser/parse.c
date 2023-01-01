@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/19 00:15:54 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/01 19:05:42 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,27 @@ static t_line	parse_err_cleanup(const char *err_str, char c, t_parse_data pd)
 	return (empty_line);
 }
 
+// t_line	check_parse_precondition(char *line, t_parse_data *pd, t_line parsed_line)
+// {
+// 	while (*line)
+// 	{
+// 		pd->quotes = parse_set_quotes(*line, pd->quotes, pd->cmd);
+// 		if (*line == '|' && pd->quotes == 0)
+// 		{
+// 			if (!parse_in_pipe(pd))
+// 				return (parse_err_cleanup("unexpected character", *line, *pd));
+// 		}
+// 		else if (!parse_out_pipe(line, pd))
+// 			return (parse_err_cleanup("unexpected character", *line, *pd));
+// 		line++;
+// 	}
+// 	if (pd->quotes == 1)
+// 		return (parse_err_cleanup("unclosed quote", '\'', *pd));
+// 	if (pd->quotes == 2)
+// 		return (parse_err_cleanup("unclosed quote", '\"', *pd));
+// 	return parsed_line;
+// }
+
 t_line	parse(char *line, t_env head)
 {
 	t_line			parsed_line;
@@ -95,6 +116,7 @@ t_line	parse(char *line, t_env head)
 
 	init_parse_data(&pd);
 	parsed_line.size = 0;
+	//check_parse_precondition(line, &pd, parsed_line);
 	while (*line)
 	{
 		pd.quotes = parse_set_quotes(*line, pd.quotes, pd.cmd);
@@ -103,11 +125,8 @@ t_line	parse(char *line, t_env head)
 			if (!parse_in_pipe(&pd))
 				return (parse_err_cleanup("unexpected character", *line, pd));
 		}
-		else
-		{
-			if (!parse_out_pipe(line, &pd))
-				return (parse_err_cleanup("unexpected character", *line, pd));
-		}
+		else if (!parse_out_pipe(line, &pd))
+			return (parse_err_cleanup("unexpected character", *line, pd));
 		line++;
 	}
 	if (pd.quotes == 1)

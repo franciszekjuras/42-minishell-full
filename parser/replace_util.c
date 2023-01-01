@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:11:34 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/19 13:06:49 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/01 14:32:54 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 
 	if (s1 == NULL)
 		return (ft_strdup(s2));
-	new_str = ft_strjoin(s1, s2); //TODO: write a test where s1 != NULL
+	new_str = ft_strjoin(s1, s2);
 	free(s1);
 	return (new_str);
 }

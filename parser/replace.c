@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/19 13:20:30 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/01 14:34:13 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	replace(t_cmd *cmd, t_env env)
 		{
 			new = replace_while(cmd, env, i);
 			if (new == NULL && cmd->is_dollar)
-				delete_argv(cmd, &i); // TODO: write a test or remove
+				delete_argv(cmd, &i);
 			else if (new == NULL)
 			{
 				new = ft_strdup("");
