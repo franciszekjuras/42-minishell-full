@@ -401,7 +401,10 @@ void	test_prog_redirs(t_prog *prog, const char *in, const char *out)
 void	test_line_init(t_line *line, int size)
 {
 	line->size = size;
-	line->progs = calloc(size, sizeof(t_prog));
+	if (size != 0)
+		line->progs = calloc(size, sizeof(t_prog));
+	else
+		line->progs = NULL;
 }
 
 void	test_line_end(t_line *line, int it)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/01 19:05:42 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2023/01/02 19:07:59 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,12 @@ static int	parse_out_pipe(char *line, t_parse_data *pd)
 	return (1);
 }
 
-static t_line	parse_err_cleanup(const char *err_str, char c, t_parse_data pd)
+static t_line	parse_cleanup(const char *err_str, char c, t_parse_data pd)
 {
 	t_line	empty_line;
 
-	ft_dprintf(2, "minish: parsing error: %s: %c\n", err_str, c);
+	if (err_str != NULL)
+		ft_dprintf(2, "minish: parsing error: %s: %c\n", err_str, c);
 	ft_free_list(pd.cmd);
 	free(pd.str);
 	empty_line.progs = NULL;
@@ -96,16 +97,16 @@ static t_line	parse_err_cleanup(const char *err_str, char c, t_parse_data pd)
 // 		if (*line == '|' && pd->quotes == 0)
 // 		{
 // 			if (!parse_in_pipe(pd))
-// 				return (parse_err_cleanup("unexpected character", *line, *pd));
+// 				return (parse_cleanup("unexpected character", *line, *pd));
 // 		}
 // 		else if (!parse_out_pipe(line, pd))
-// 			return (parse_err_cleanup("unexpected character", *line, *pd));
+// 			return (parse_cleanup("unexpected character", *line, *pd));
 // 		line++;
 // 	}
 // 	if (pd->quotes == 1)
-// 		return (parse_err_cleanup("unclosed quote", '\'', *pd));
+// 		return (parse_cleanup("unclosed quote", '\'', *pd));
 // 	if (pd->quotes == 2)
-// 		return (parse_err_cleanup("unclosed quote", '\"', *pd));
+// 		return (parse_cleanup("unclosed quote", '\"', *pd));
 // 	return parsed_line;
 // }
 
@@ -115,38 +116,41 @@ t_line	parse(char *line, t_env head)
 	t_parse_data	pd;
 
 	init_parse_data(&pd);
-	parsed_line.size = 0;
 	//check_parse_precondition(line, &pd, parsed_line);
+	while (*line == ' ')
+		line++;
+	if (*line == '\0')
+		return (parse_cleanup(NULL, '\0', pd));
 	while (*line)
 	{
 		pd.quotes = parse_set_quotes(*line, pd.quotes, pd.cmd);
 		if (*line == '|' && pd.quotes == 0)
 		{
 			if (!parse_in_pipe(&pd))
-				return (parse_err_cleanup("unexpected character", *line, pd));
+				return (parse_cleanup("unexpected character", *line, pd));
 		}
 		else if (!parse_out_pipe(line, &pd))
-			return (parse_err_cleanup("unexpected character", *line, pd));
+			return (parse_cleanup("unexpected character", *line, pd));
 		line++;
 	}
 	if (pd.quotes == 1)
-		return (parse_err_cleanup("unclosed quote", '\'', pd));
+		return (parse_cleanup("unclosed quote", '\'', pd));
 	if (pd.quotes == 2)
-		return (parse_err_cleanup("unclosed quote", '\"', pd));
+		return (parse_cleanup("unclosed quote", '\"', pd));
 	if (pd.str != NULL)
 	{
 		pd.cmd->argv = ft_split_argc(pd.str, &(pd.cmd->argc));
 		if (pd.cmd->argc == 0)
-			return (parse_err_cleanup("expected command after pipe", '|', pd));
+			return (parse_cleanup("expected command after pipe", '|', pd));
 		pd.str = ft_free(pd.str);
 	}
 	else
-		return (parse_err_cleanup("expected command after pipe", '|', pd));
+		return (parse_cleanup("expected command after pipe", '|', pd));
 	while (pd.cmd->prev != NULL)
 		pd.cmd = pd.cmd->prev;
 	replace(pd.cmd, head);
 	argc_checker(&pd.cmd);
 	parsed_line = translate(pd.cmd);
-	ft_free_list(pd.cmd);
+	(void) parse_cleanup(NULL, '\0', pd);
 	return (parsed_line);
 }
