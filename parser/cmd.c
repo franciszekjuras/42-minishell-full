@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:00:29 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/16 12:02:41 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/02 21:11:15 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ void	ft_free_list(t_cmd *cmd)
 	t_cmd	*ptr;
 	int		i;
 
+
+	while (cmd->prev != NULL)
+		cmd = cmd->prev;
 	while (cmd)
 	{
 		i = 0;
