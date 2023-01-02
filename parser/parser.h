@@ -6,14 +6,13 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:46:48 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/02 21:31:45 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/02 22:07:42 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <stdio.h> //for debugging
 # include "struct.h"
 # include <libft/libft.h>
 # include <interface/line.h>
@@ -41,7 +40,6 @@ int		parse_set_quotes(char line, int quotes, t_cmd *cmd);
 t_line	parse(char *line, t_env env);
 void	replace(t_cmd *cmd, t_env env);
 void	replace_data_init(t_replace_data *rd, t_cmd *cmd, t_env env);
-void	delete_argv(t_cmd *cmd, int *i);
 void	argv_change(t_cmd *cmd, char *new, int i);
 char	*ft_strjoin_free(char *s1, char *s2);
 void	init_parse_data(t_parse_data *pd);
