@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:11:34 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/01 14:32:54 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2023/01/02 21:51:49 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,6 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	new_str = ft_strjoin(s1, s2);
 	free(s1);
 	return (new_str);
-}
-
-void	delete_argv(t_cmd *cmd, int *i)
-{
-	int		tmp;
-
-	tmp = *i;
-	cmd->argv[tmp] = ft_free(cmd->argv[tmp]);
-	while (tmp < cmd->argc - 1)
-	{
-		cmd->argv[tmp] = cmd->argv[tmp + 1];
-		tmp++;
-	}
-	*i = *i - 1;
-	cmd->argc = cmd->argc - 1;
-	cmd->is_dollar = false;
-	cmd->argv[tmp] = 0;
 }
 
 void	argv_change(t_cmd *cmd, char *new, int i)
