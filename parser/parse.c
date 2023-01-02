@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/02 19:07:59 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/02 20:18:58 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ t_line	parse(char *line, t_env head)
 	while (pd.cmd->prev != NULL)
 		pd.cmd = pd.cmd->prev;
 	replace(pd.cmd, head);
-	argc_checker(&pd.cmd);
 	parsed_line = translate(pd.cmd);
 	(void) parse_cleanup(NULL, '\0', pd);
 	return (parsed_line);

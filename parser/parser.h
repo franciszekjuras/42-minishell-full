@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:46:48 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/31 23:33:15 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2023/01/02 20:18:53 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_line	parse(char *line, t_env env);
 void	replace(t_cmd *cmd, t_env env);
 void	replace_data_init(t_replace_data *rd, t_cmd *cmd, t_env env);
 void	delete_argv(t_cmd *cmd, int *i);
-void	argc_checker(t_cmd **cmd);
 void	argv_change(t_cmd *cmd, char *new, int i);
 char	*ft_strjoin_free(char *s1, char *s2);
 void	init_parse_data(t_parse_data *pd);

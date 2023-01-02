@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 20:12:03 by fjuras            #+#    #+#             */
-/*   Updated: 2023/01/02 19:40:20 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/02 20:26:53 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,43 @@ int	test_redir(const char *filter)
 		check_variant(g_env, exp, ">out.txt ls <in.txt") &&
 		check_variant(g_env, exp, ">out.txt <in.txt ls") &&
 		check_variant(g_env, exp, "ls >out.txt <in.txt");
+	test_line_free(exp);
+	return (TEST_END(r));
+}
+
+int	test_alt_redir(const char *filter)
+{
+	t_line	exp;
+	int		i, r;
+
+	TEST_START(filter);
+	i = 0;
+	test_line_init(&exp, 1);
+	test_prog_args(&exp.progs[i], "ls", NULL);
+	test_prog_redirs(&exp.progs[i], "in.txt", "out.txt");
+	exp.progs[i].in_redir.is_alt = 1;
+	exp.progs[i++].out_redir.is_alt = 1;
+	test_line_end(&exp, i);
+	r = check_variant(g_env, exp, "<<in.txt ls >>out.txt") &&
+		check_variant(g_env, exp, "<< in.txt ls >> out.txt");
+	test_line_free(exp);
+	return (TEST_END(r));
+}
+
+
+int	test_duplicate_redir(const char *filter)
+{
+	t_line	exp;
+	int		i, r;
+
+	TEST_START(filter);
+	i = 0;
+	test_line_init(&exp, 1);
+	test_prog_args(&exp.progs[i], "ls", NULL);
+	test_prog_redirs(&exp.progs[i], NULL, "other.txt");
+	exp.progs[i++].out_redir.is_alt = 1;
+	test_line_end(&exp, i);
+	r = check_variant(g_env, exp, ">out.txt ls >>other.txt");
 	test_line_free(exp);
 	return (TEST_END(r));
 }
@@ -408,6 +445,8 @@ const t_test_function g_test_functions[] =
     test_two_cmds,
 	test_redir_simple,
 	test_redir,
+	test_alt_redir,
+	test_duplicate_redir,
 	test_env,
 	test_env_in_string,
 	test_env_exit_status,
