@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:46:48 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/02 20:18:53 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/02 21:31:45 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,8 @@ void	ft_translate_redir_in_0(t_cmd *cur_cmd, t_line *line, int idx, int *i);
 void	ft_translate_redir_in_1(t_cmd *cur_cmd, t_line *line, int idx, int *i);
 void	ft_translate_redir_out_0(t_cmd *cur_cmd, t_line *line, int idx, int *i);
 void	ft_translate_redir_out_1(t_cmd *cur_cmd, t_line *line, int idx, int *i);
+int		parse_in_pipe(t_parse_data *pd);
+char	*add_redirect_space(char *str, char *line, char c);
+int		parse_out_pipe(char *line, t_parse_data *pd);
 
 #endif

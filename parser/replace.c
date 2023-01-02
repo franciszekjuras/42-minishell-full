@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/02 20:13:21 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/02 21:34:37 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ static char	*replace_while(t_cmd *cmd, t_env env, int i)
 	return (new);
 }
 
+// TODO: check if replace_while can return NULL
 void	replace(t_cmd *cmd, t_env env)
 {
 	int		i;
@@ -116,7 +117,6 @@ void	replace(t_cmd *cmd, t_env env)
 		while (i < cmd->argc)
 		{
 			new = replace_while(cmd, env, i);
-			// TODO: check if replace_while can return NULL
 			if (new == NULL && cmd->is_dollar)
 				delete_argv(cmd, &i);
 			else if (new == NULL)

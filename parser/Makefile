@@ -2,7 +2,8 @@ NAME = libparser.a
 
 FILES = \
 	ft_split_argc ft_strjoin_char parse_set_quotes \
-	parse replace_util replace cmd utils translate translate_redir
+	parse parse_int replace_util replace cmd utils \
+	translate translate_redir
 
 HFILES = parser.h struct.h ../interface/line.h
 
