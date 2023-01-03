@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 20:12:03 by fjuras            #+#    #+#             */
-/*   Updated: 2023/01/02 21:12:43 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/03 15:46:27 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ int	test_env_in_string(const char *filter)
 	test_prog_args(&exp.progs[i], "tralabala", NULL);
 	test_prog_redirs(&exp.progs[i++], NULL, NULL);
 	test_line_end(&exp, i);
-	r = check_variant(g_env, exp, "tr$Al$A$B$Al$A");
+	r = check_variant(g_env, exp, "tr$A\'\'l$A$B$A\"l\"$A");
 	test_line_free(exp);
 	return (TEST_END(r));
 }
