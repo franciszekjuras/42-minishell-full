@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 18:28:02 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/02 20:09:04 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/03 16:21:23 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,23 @@ typedef struct s_test_data
 }	t_test_data;
 
 t_env	g_env;
+
+int	test_empty(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+
+	TEST_START_CLEAN(filter);
+	d.i = 0;
+	test_line_init(&line, 0);
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	d.retval = minish_execute(&g_env, line);
+	test_close_stdout();
+	d.file_match = test_expect_file_size("out/stdout.txt", 0);
+	d.retval_match = test_expect_retval(d.retval, 127);
+	return (TEST_END(d.retval_match && d.file_match));
+}
 
 int	test_single_cmd_no_args(const char *filter)
 {
@@ -970,6 +987,7 @@ int test_out_alt_redir(const char *filter)
 
 const t_test_function g_test_functions[] =
 {
+	test_empty,
 	test_single_cmd_no_args,
 	test_single_cmd_one_arg,
 	test_1C_in_and_out_redir,

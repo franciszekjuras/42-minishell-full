@@ -1,2 +1,6 @@
+minishell
 *.o
 *-cov/
+*.txt
+*.code-workspace
+.vscode

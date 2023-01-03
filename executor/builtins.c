@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:24:07 by fjuras            #+#    #+#             */
-/*   Updated: 2022/12/01 13:50:35 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/03 17:17:12 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,28 @@ t_bltin_fun	builtin_resolve(const char *progname)
 
 int	builtin_exit(t_app *app, t_exec_data *ed)
 {
-	(void)ed;
+	char	*nstr;
+	int		nval;
+	int		err;
+
 	app->env->should_exit = 1;
-	return (0);
+	if (ed->args[1] == NULL)
+		return (app->env->last_exit_status);
+	else if (ed->args[2] != NULL)
+	{		
+		ft_dprintf(2, "%s: exit: %s\n", app->name, "too many arguments");
+		return (127);
+	}
+	else
+	{
+		nstr = ed->args[1];
+		nval = ft_strtonum(&nstr, 0, 255, &err);
+		if (*nstr != '\0' || err != 0)
+		{
+			ft_dprintf(2, "%s: exit: %s: %s\n", app->name, ed->args[1],
+				"integer argument [0, 255] required");
+			return (127);
+		}
+		return (nval);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:24:07 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/07 14:52:38 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/03 16:49:56 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	builtin_env(t_app *app, t_exec_data *ed)
 {
 	if (ed->args[1] != NULL)
 	{
-		ft_dprintf(2, "%s: %s: %s: %s\n",
-			app->name, ed->args[0], ed->args[1], strerror(EINVAL));
+		ft_dprintf(2, "%s: env: %s: %s\n",
+			app->name, ed->args[1], strerror(EINVAL));
 		return (EINVAL);
 	}
 	vars_dprintf(ed->fd_out, "%s\n", app->env->vars);
@@ -48,8 +48,8 @@ int	builtin_export(t_app *app, t_exec_data *ed)
 	{
 		if (!var_is_assignment(ed->args[i]))
 		{
-			ft_dprintf(2, "%s: %s: %s: %s\n",
-				app->name, ed->args[0], ed->args[i], strerror(EINVAL));
+			ft_dprintf(2, "%s: export: %s: %s\n",
+				app->name, ed->args[i], strerror(EINVAL));
 			err = EINVAL;
 		}
 		else
@@ -70,8 +70,8 @@ int	builtin_unset(t_app *app, t_exec_data *ed)
 	{
 		if (!var_is_valid_name(ed->args[i]))
 		{
-			ft_dprintf(2, "%s: %s: %s: %s\n",
-				app->name, ed->args[0], ed->args[i], strerror(EINVAL));
+			ft_dprintf(2, "%s: unset: %s: %s\n",
+				app->name, ed->args[i], strerror(EINVAL));
 			err = EINVAL;
 		}
 		else

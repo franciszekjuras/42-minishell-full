@@ -6,28 +6,24 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2022/12/02 18:43:10 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/03 17:03:42 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <term.h>
-#include <stdio.h> //for testing
-#include <readline/history.h>
-#include <libft/libft.h>
-#include <parser/parser.h>
-#include <interface/env.h>
-#include <interface/line.h>
-#include <interface/global.h>
-#include <executor/executor.h>
-
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <string.h>
 #include <sys/errno.h>
 #include <signal.h>
-#include <stdio.h>
 #include <readline/readline.h>
+#include <readline/history.h>
+#include <libft/libft.h>
+#include <parser/parser.h>
+#include <executor/executor.h>
+#include <interface/env.h>
+#include <interface/line.h>
+#include <interface/global.h>
 #include "utils.h"
 
 volatile sig_atomic_t	g_shell_state = 0;
@@ -105,9 +101,8 @@ int	main(int argc, char *argv[], char *envp[])
 	main_init(argc, argv);
 	minish_env_init(&env, envp);
 	while (!env.should_exit)
-	{
 		read_and_exec_line(&env);
-	}
 	minish_env_free(env);
 	tcsetattr(0, TCSANOW, &term);
+	return (env.last_exit_status);
 }
