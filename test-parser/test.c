@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 20:12:03 by fjuras            #+#    #+#             */
-/*   Updated: 2023/01/03 15:46:27 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/03 18:46:27 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,17 @@
 t_env	g_env;
 
 #define check_variant(...) check_variant_x(__FILE__, __LINE__, __VA_ARGS__)
-int	check_variant_x(const char *from, int line, t_env env, t_line exp, char *input)
+int	check_variant_x(const char *from, int line, t_env env, t_line exp, const char *input)
 {
 	t_line	parsed_line;
 	int		r;
+	char	*input_on_heap;
 
-	parsed_line = parse(input, env);
+	input_on_heap = strdup(input);
+	parsed_line = parse(input_on_heap, env);
 	r = test_expect_line_eq_x(from, line, &parsed_line, &exp);
 	test_line_free(parsed_line);
+	free(input_on_heap);
 	return (r);
 }
 
@@ -147,12 +150,14 @@ int	test_alt_redir(const char *filter)
 	i = 0;
 	test_line_init(&exp, 1);
 	test_prog_args(&exp.progs[i], "ls", NULL);
-	test_prog_redirs(&exp.progs[i], "in.txt", "out.txt");
+	test_prog_redirs(&exp.progs[i], "EOF", "out.txt");
 	exp.progs[i].in_redir.is_alt = 1;
 	exp.progs[i++].out_redir.is_alt = 1;
 	test_line_end(&exp, i);
-	r = check_variant(g_env, exp, "<<in.txt ls >>out.txt") &&
-		check_variant(g_env, exp, "<< in.txt ls >> out.txt");
+	r = check_variant(g_env, exp, "<<EOF ls >>out.txt") &&
+		check_variant(g_env, exp, "<< EOF ls >> out.txt")&&
+		check_variant(g_env, exp, ">>out.txt ls <<EOF")&&
+		check_variant(g_env, exp, ">> out.txt ls << EOF");
 	test_line_free(exp);
 	return (TEST_END(r));
 }
