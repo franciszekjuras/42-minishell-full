@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_int.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/02 21:56:06 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/04 23:34:42 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ char	*add_redirect_space(char *str, char *line, char c)
 {
 	if (c == '>')
 	{
-		line--;
-		if (!(*line == '>' || *line == ' '))
+		if (!(*(line-1) == '>' || *(line-1) == ' '))
 			str = ft_strjoin_char(str, ' ');
-		line++;
 		str = ft_strjoin_char(str, -62);
 		line++;
 		if (!(*line == '>' || *line == ' '))
@@ -44,10 +42,8 @@ char	*add_redirect_space(char *str, char *line, char c)
 	}
 	else if (c == '<')
 	{
-		line--;
-		if (!(*line == '<' || *line == ' '))
+		if (!(*(line-1) == '<' || *(line-1) == ' '))
 			str = ft_strjoin_char(str, ' ');
-		line++;
 		str = ft_strjoin_char(str, -60);
 		line++;
 		if (!(*line == '<' || *line == ' '))
