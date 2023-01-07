@@ -6,11 +6,10 @@
 /*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/05 22:45:50 by chan-hpa         ###   ########.fr       */
+/*   Updated: 2023/01/06 23:21:01 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "parser.h"
 
 int	parse_in_pipe(t_parse_data *pd)
@@ -34,7 +33,7 @@ char	*add_redirect_space(char *str, char *line, char c)
 {
 	if (c == '>')
 	{
-		if ((str != NULL) && !(*(line-1) == '>' || *(line-1) == ' '))
+		if ((str != NULL) && !(*(line - 1) == '>' || *(line - 1) == ' '))
 			str = ft_strjoin_char(str, ' ');
 		str = ft_strjoin_char(str, -62);
 		line++;
@@ -43,7 +42,7 @@ char	*add_redirect_space(char *str, char *line, char c)
 	}
 	else if (c == '<')
 	{
-		if ((str != NULL) && !(*(line-1) == '>' || *(line-1) == ' '))
+		if ((str != NULL) && !(*(line - 1) == '<' || *(line - 1) == ' '))
 			str = ft_strjoin_char(str, ' ');
 		str = ft_strjoin_char(str, -60);
 		line++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: chan-hpa <chan-hpa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:28 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/03 15:42:43 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/06 23:21:22 by chan-hpa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@ static char	*replace_while_dollar(
 		if (*env_var != NULL)
 		{
 			new = ft_strjoin_free(new, get_env(rd.env, *env_var));
-			// if (!(c == '\"' && rd.quotes != 1)
-			// 	&& !(c == '\'' && rd.quotes != 2))
-			// 	new = ft_strjoin_char(new, c);
 			*env_var = ft_free(*env_var);
 		}
 		else
