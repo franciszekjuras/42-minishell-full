@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/29 17:50:54 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/07 20:36:56 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ void	app_fill_exec_data(t_app *app, t_exec_data *exec_data, t_prog prog)
 	{
 		exec_data->is_builtin = 1;
 		exec_data->ready = 1;
-		return ;
 	}
-	exec_data->prog_path = app_resolve_prog_path(app, exec_data->args[0]);
-	if (exec_data->prog_path != NULL)
-		exec_data->ready = 1;
+	else
+	{
+		exec_data->prog_path = app_resolve_prog_path(app, exec_data->args[0]);
+		if (exec_data->prog_path != NULL)
+			exec_data->ready = 1;
+	}
 }
 
 int	app_pipe_exec_data_arr(t_app *app,

@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 20:12:03 by fjuras            #+#    #+#             */
-/*   Updated: 2023/01/03 18:46:27 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/07 20:34:32 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,13 @@ int	test_redir(const char *filter)
 		check_variant(g_env, exp, "<in.txt >out.txt ls") &&
 		check_variant(g_env, exp, ">out.txt ls <in.txt") &&
 		check_variant(g_env, exp, ">out.txt <in.txt ls") &&
-		check_variant(g_env, exp, "ls >out.txt <in.txt");
+		check_variant(g_env, exp, "ls >out.txt <in.txt") &&
+		check_variant(g_env, exp, "< in.txt ls > out.txt") &&
+		check_variant(g_env, exp, "ls < in.txt > out.txt") &&
+		check_variant(g_env, exp, "< in.txt > out.txt ls") &&
+		check_variant(g_env, exp, "> out.txt ls < in.txt") &&
+		check_variant(g_env, exp, "> out.txt < in.txt ls") &&
+		check_variant(g_env, exp, "ls > out.txt < in.txt");
 	test_line_free(exp);
 	return (TEST_END(r));
 }
@@ -377,6 +383,22 @@ int	test_many_quotes(const char *filter)
 	return (TEST_END(r));
 }
 
+int test_redir_only(const char *filter)
+{
+		t_line	exp;
+	int		i, r;
+
+	TEST_START(filter);
+	i = 0;
+	test_line_init(&exp, 1);
+	test_prog_args(&exp.progs[i], NULL);
+	test_prog_redirs(&exp.progs[i++], NULL, "out.txt");
+	test_line_end(&exp, i);
+	r = check_variant(g_env, exp, ">out.txt");
+	test_line_free(exp);
+	return (TEST_END(r));
+}
+
 int	test_empty_input(const char *filter)
 {
 	t_line	exp;
@@ -464,6 +486,7 @@ const t_test_function g_test_functions[] =
 	test_dq_env_w_space,
 	test_sq_env,
 	test_many_quotes,
+	test_redir_only,
 	test_empty_input,
 	test_invalid_input_empty_cmd,
 	test_invalid_input_forbidden_char,

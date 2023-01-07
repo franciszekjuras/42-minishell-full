@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:24:07 by fjuras            #+#    #+#             */
-/*   Updated: 2023/01/03 17:17:12 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/07 20:38:42 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 t_bltin_fun	builtin_resolve(const char *progname)
 {
-	if (ft_strcmp(progname, "exit") == 0)
+	if (progname == NULL)
+		return (builtin_noop);
+	else if (ft_strcmp(progname, "exit") == 0)
 		return (builtin_exit);
 	else if (ft_strcmp(progname, "echo") == 0)
 		return (builtin_echo);
@@ -59,4 +61,11 @@ int	builtin_exit(t_app *app, t_exec_data *ed)
 		}
 		return (nval);
 	}
+}
+
+int	builtin_noop(t_app *app, t_exec_data *ed)
+{
+	(void)app;
+	(void)ed;
+	return (0);
 }

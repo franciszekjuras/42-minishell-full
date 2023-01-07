@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:44:10 by chan-hpa          #+#    #+#             */
-/*   Updated: 2023/01/02 21:34:18 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/07 21:12:43 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	parse_cleanup(const char *err_str, char c, t_parse_data pd)
 {
 	if (err_str != NULL)
-		ft_dprintf(2, "minish: parsing error: %s: %c\n", err_str, c);
+		ft_dprintf(2, "minishell: parsing error: %s: %c\n", err_str, c);
 	ft_free_list(pd.cmd);
 	free(pd.str);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 18:28:02 by fjuras            #+#    #+#             */
-/*   Updated: 2023/01/03 16:21:23 by fjuras           ###   ########.fr       */
+/*   Updated: 2023/01/07 21:09:54 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,26 @@ int	test_2C_retval(const char *filter)
 	test_close_stdout();
 	d.file_match = 1;
 	d.retval_match = test_expect_retval(d.retval, ENOENT);
+	return (TEST_END(d.retval_match && d.file_match));
+}
+
+int	test_builtin_noop(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+
+	TEST_START_CLEAN(filter);
+	d.i = 0;
+	test_line_init(&line, 1);
+	test_prog_args(&line.progs[d.i], NULL);
+	test_prog_redirs(&line.progs[d.i++], NULL, "out/out.txt");
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	d.retval = minish_execute(&g_env, line);
+	test_close_stdout();
+	d.file_match = test_expect_file_size("out/stdout.txt", 0) &
+					test_expect_file_size("out/out.txt", 0);
+	d.retval_match = test_expect_retval(d.retval, 0);
 	return (TEST_END(d.retval_match && d.file_match));
 }
 
@@ -785,7 +805,113 @@ int	test_builtin_exit(const char *filter)
 	minish_env_free(env);
 	d.file_match = test_expect_file_content("out/stdout.txt", NULL);
 	d.retval_match = test_expect_retval(d.retval, 0);
-	int should_exit_match = test_expect_val("Exit flag value", env.should_exit, 1);
+	int should_exit_match = test_expect_val("exit flag value", env.should_exit, 1);
+	return (TEST_END(d.retval_match && d.file_match && should_exit_match));
+}
+
+int	test_builtin_exit_retval(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+	t_env		env;
+	char		**environ;
+
+	TEST_START_CLEAN(filter);
+	environ = test_make_environ(NULL);
+	minish_env_init(&env, environ);
+	test_free_environ(environ);
+	env.last_exit_status = 42;
+	d.i = 0;
+	test_line_init(&line, 1);
+	test_prog_args(&line.progs[d.i], "exit", NULL);
+	test_prog_redirs(&line.progs[d.i++], NULL, NULL);
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	d.retval = minish_execute(&env, line);
+	test_close_stdout();
+	minish_env_free(env);
+	d.file_match = test_expect_file_content("out/stdout.txt", NULL);
+	d.retval_match = test_expect_retval(d.retval, 42);
+	int should_exit_match = test_expect_val("exit flag value", env.should_exit, 1);
+	return (TEST_END(d.retval_match && d.file_match && should_exit_match));
+}
+
+int	test_builtin_exit_arg(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+	t_env		env;
+	char		**environ;
+
+	TEST_START_CLEAN(filter);
+	environ = test_make_environ(NULL);
+	minish_env_init(&env, environ);
+	test_free_environ(environ);
+	d.i = 0;
+	test_line_init(&line, 1);
+	test_prog_args(&line.progs[d.i], "exit", "86", NULL);
+	test_prog_redirs(&line.progs[d.i++], NULL, NULL);
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	d.retval = minish_execute(&env, line);
+	test_close_stdout();
+	minish_env_free(env);
+	d.file_match = test_expect_file_content("out/stdout.txt", NULL);
+	d.retval_match = test_expect_retval(d.retval, 86);
+	int should_exit_match = test_expect_val("exit flag value", env.should_exit, 1);
+	return (TEST_END(d.retval_match && d.file_match && should_exit_match));
+}
+
+int	test_builtin_exit_arg_invalid(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+	t_env		env;
+	char		**environ;
+
+	TEST_START_CLEAN(filter);
+	environ = test_make_environ(NULL);
+	minish_env_init(&env, environ);
+	test_free_environ(environ);
+	d.i = 0;
+	test_line_init(&line, 1);
+	test_prog_args(&line.progs[d.i], "exit", "42rubbish", NULL);
+	test_prog_redirs(&line.progs[d.i++], NULL, NULL);
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	d.retval = minish_execute(&env, line);
+	test_close_stdout();
+	minish_env_free(env);
+	d.file_match = test_expect_file_content("out/stdout.txt", NULL);
+	d.retval_match = test_expect_retval(d.retval, 127);
+	int should_exit_match = test_expect_val("exit flag value", env.should_exit, 1);
+	return (TEST_END(d.retval_match && d.file_match && should_exit_match));
+}
+
+
+int	test_builtin_exit_arg_toomany(const char *filter)
+{
+	t_line		line;
+	t_test_data	d;
+	t_env		env;
+	char		**environ;
+
+	TEST_START_CLEAN(filter);
+	environ = test_make_environ(NULL);
+	minish_env_init(&env, environ);
+	test_free_environ(environ);
+	d.i = 0;
+	test_line_init(&line, 1);
+	test_prog_args(&line.progs[d.i], "exit", "42", "13", NULL);
+	test_prog_redirs(&line.progs[d.i++], NULL, NULL);
+	test_line_end(&line, d.i);
+	test_redirect_stdout("out/stdout.txt");
+	d.retval = minish_execute(&env, line);
+	test_close_stdout();
+	minish_env_free(env);
+	d.file_match = test_expect_file_content("out/stdout.txt", NULL);
+	d.retval_match = test_expect_retval(d.retval, 127);
+	int should_exit_match = test_expect_val("exit flag value", env.should_exit, 1);
 	return (TEST_END(d.retval_match && d.file_match && should_exit_match));
 }
 
@@ -999,6 +1125,7 @@ const t_test_function g_test_functions[] =
 	test_2C_exe_error_in_last,
 	test_2C_dev_random_head,
 	test_2C_retval,
+	test_builtin_noop,
 	test_builtin_echo,
 	test_builtin_echo_empty,
 	test_builtin_echo_n,
@@ -1017,6 +1144,10 @@ const t_test_function g_test_functions[] =
 	test_builtin_unset_path,
 	test_builtin_unset_invalid,
 	test_builtin_exit,
+	test_builtin_exit_retval,
+	test_builtin_exit_arg,
+	test_builtin_exit_arg_invalid,
+	test_builtin_exit_arg_toomany,
 	test_3C_segfault_first_and_last,
 	test_builtin_cd_pwd,
 	test_builtin_cd_invalid_arg_number,
